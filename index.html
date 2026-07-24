@@ -274,52 +274,108 @@
     .rating-badge.negative { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
     /* ===================================
-       REVIEW TEMPLATES
+       CATEGORY PILLS — TAP TO BUILD
        =================================== */
-    .templates-label {
-      font-size: 12px;
+    .tags-label {
+      font-size: 11.5px;
       font-weight: 600;
       color: var(--color-text-light);
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 10px;
+      letter-spacing: 0.9px;
+      margin-bottom: 12px;
     }
 
-    .templates-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 18px;
+    .tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
     }
 
-    .template-chip {
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       background: var(--color-secondary);
       border: 1.5px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: 11px 13px;
-      font-size: 12.5px;
+      border-radius: 100px;
+      padding: 8px 15px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
       color: var(--color-text-mid);
       cursor: pointer;
-      text-align: left;
-      line-height: 1.45;
+      white-space: nowrap;
       transition: background var(--transition), border-color var(--transition),
-                  color var(--transition), transform var(--transition), box-shadow var(--transition);
-      font-family: var(--font-body);
+                  color var(--transition), transform var(--transition),
+                  box-shadow var(--transition);
+      user-select: none;
     }
 
-    .template-chip:hover {
+    .category-pill:hover {
       background: #dbeafe;
       border-color: var(--color-primary);
       color: var(--color-primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(0,69,139,0.12);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 12px rgba(0,69,139,0.13);
     }
 
-    .template-chip.selected {
+    .category-pill:active {
+      transform: scale(0.96);
+    }
+
+    .category-pill.used {
       background: var(--color-primary);
       border-color: var(--color-primary);
       color: var(--color-white);
-      box-shadow: 0 4px 16px rgba(0,69,139,0.3);
+      box-shadow: 0 3px 14px rgba(0,69,139,0.28);
+    }
+
+    .category-pill.used:hover {
+      background: #0055aa;
+      border-color: #0055aa;
+      color: var(--color-white);
+      transform: translateY(-1px);
+    }
+
+    .pill-emoji {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    /* Textarea row — label + clear button aligned */
+    .textarea-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .textarea-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--color-text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+    }
+
+    .btn-clear {
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: 100px;
+      padding: 3px 11px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-text-light);
+      cursor: pointer;
+      transition: border-color var(--transition), color var(--transition), background var(--transition);
+    }
+
+    .btn-clear:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background: #fff5f5;
     }
 
     /* ===================================
@@ -327,7 +383,7 @@
        =================================== */
     .review-textarea {
       width: 100%;
-      min-height: 110px;
+      min-height: 120px;
       border: 1.5px solid var(--color-border);
       border-radius: var(--radius-md);
       padding: 14px 16px;
@@ -338,12 +394,12 @@
       resize: vertical;
       outline: none;
       transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     .review-textarea:focus {
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(0, 69, 139, 0.12);
+      box-shadow: 0 0 0 3px rgba(0, 69, 139, 0.10);
       background: var(--color-white);
     }
 
@@ -355,28 +411,6 @@
       color: var(--color-text-light);
       margin-top: 5px;
       margin-bottom: 18px;
-    }
-
-    /* ===================================
-       OR DIVIDER
-       =================================== */
-    .or-divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 16px 0;
-      color: var(--color-text-light);
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
-
-    .or-divider::before, .or-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--color-border);
     }
 
     /* ===================================
@@ -487,10 +521,10 @@
        RESPONSIVE
        =================================== */
     @media (max-width: 400px) {
-      .hero-greeting  { font-size: 19px; }
-      .star-btn svg   { width: 40px; height: 40px; }
-      .templates-grid { grid-template-columns: 1fr; }
-      .section-card   { padding: 22px 18px; }
+      .hero-greeting { font-size: 19px; }
+      .star-btn svg  { width: 40px; height: 40px; }
+      .section-card  { padding: 22px 18px; }
+      .category-pill { font-size: 12px; padding: 7px 13px; }
     }
 
     /* ===================================
@@ -679,24 +713,26 @@
       <div class="rating-badge positive" id="positive-badge" aria-live="polite"></div>
       <h2 class="section-title" id="positive-heading">
         <span class="section-icon" aria-hidden="true">🎉</span>
-        Share Your Experience!
+        Build Your Review
       </h2>
       <p class="section-desc">
-        We're so glad you loved it! Pick a template below or write your own — then share it on Google Maps to help other dessert lovers find us.
+        Tap any topic below to add a sentence — keep tapping to build a full review, then share it on Google Maps!
       </p>
 
-      <p class="templates-label">Quick templates — click to select</p>
-      <div class="templates-grid" id="templates-grid" role="list"></div>
+      <p class="tags-label">Tap topics to add to your review</p>
+      <div class="tags-wrap" id="tags-wrap" role="group" aria-label="Review category tags"></div>
 
-      <div class="or-divider" aria-hidden="true">or write your own</div>
-
+      <div class="textarea-header">
+        <span class="textarea-label">Your Review</span>
+        <button class="btn-clear" id="clear-review-btn" type="button" aria-label="Clear review text">Clear</button>
+      </div>
       <textarea
         class="review-textarea"
         id="positive-textarea"
-        placeholder="Share what you loved about your visit…"
+        placeholder="Tap tags above to build your review, or type here…"
         maxlength="1000"
         aria-label="Your Google review text"
-        rows="4"
+        rows="5"
       ></textarea>
       <p class="char-counter"><span id="char-count">0</span> / 1000</p>
 
@@ -808,159 +844,172 @@
       '🤩 5 Stars — Excellent!'
     ];
 
-    /* Full review pool — 150+ English + Gujarati reviews */
-    const REVIEW_POOL = [
-      "The Mava Malai here is absolutely divine.",
-      "I love the rich texture of their Amul ice cream.",
-      "Best Mava Malai in the city, hands down.",
-      "Fresh Amul flavors that never disappoint.",
-      "The Mava Malai melts in your mouth perfectly.",
-      "Authentic Amul taste and premium quality desserts.",
-      "A perfect treat for sweet cravings. The Mava Malai is a must!",
-      "You can really taste the freshness in their ice cream.",
-      "Classic Amul vanilla is my absolute favorite here.",
-      "They use premium ingredients for their Mava Malai.",
-      "An incredible variety of fresh Amul ice creams.",
-      "The Mava Malai portion size is generous and fulfilling.",
-      "Perfect place to enjoy a classic Amul chocolate scoop.",
-      "I highly recommend trying their signature Mava Malai.",
-      "The desserts are always chilled to perfection.",
-      "Their Ice Dish Gola is a refreshing blast of flavors.",
-      "The shaved ice in the Gola is so soft and perfect.",
-      "Best Rajwadi Ice Dish Gola I have ever had!",
-      "The syrups used in the Gola are rich and flavorful.",
-      "Highly recommend the dry fruit Ice Dish Gola.",
-      "The classic Kala Khatta Gola here is amazing.",
-      "A perfect summer treat! The Ice Dish is loaded with toppings.",
-      "They don't skimp on the syrups in their Gola.",
-      "My kids absolutely love the chocolate Ice Dish Gola.",
-      "The Rose flavor Gola is perfectly sweet and refreshing.",
-      "It's rare to find such high-quality Ice Dish Gola.",
-      "The Gola brings back so many childhood memories!",
-      "Perfectly balanced sweetness in every bite of the Ice Dish.",
-      "The mixed fruit Gola is a must-try for everyone.",
-      "I can eat their Ice Dish Gola every single day.",
-      "The presentation is flawless. The sides of the dish are perfectly clean with no messy mava or chocolate drips.",
-      "I love how hygienic they are. Even the edges of the serving plates are spotless.",
-      "Spotless presentation! The ice cream is served so neatly without making the dish look dirty.",
-      "They wipe the sides of the dish perfectly before serving. A visually beautiful dessert!",
-      "Five stars for cleanliness. The presentation is clean, neat, and highly appetizing.",
-      "Very hygienic preparation of street-style Gola.",
-      "The parlor is sparkling clean and smells fresh.",
-      "Clean tables, clean floors, and super clean dishes!",
-      "I am very particular about hygiene, and this place exceeds expectations.",
-      "They serve the Mava Malai so neatly, absolutely no messy edges.",
-      "The staff uses gloves and maintains great hygiene.",
-      "The Ice Dish is arranged beautifully in a perfectly clean bowl.",
-      "Outstanding cleanliness in the preparation area.",
-      "You can eat here without any hygiene concerns.",
-      "The neat presentation makes the food look even more premium.",
-      "Even during a rush, they ensure the serving dish is clean and presentable.",
-      "Great to see an Amul parlor taking cleanliness so seriously.",
-      "The spoons and serving bowls are always thoroughly washed.",
-      "Excellent attention to visual details; the desserts are picture-perfect.",
-      "Hygienic, tasty, and beautifully presented every time.",
-      "The staff is polite, quick, and very welcoming.",
-      "Great ambiance for a family dessert outing.",
-      "The owner is very friendly and suggests great flavors.",
-      "Fast service, even on busy weekend nights.",
-      "A peaceful and bright atmosphere to enjoy ice cream.",
-      "Excellent customer service and a smiling staff.",
-      "Affordable pricing for such high-quality desserts.",
-      "We always bring our guests here after dinner.",
-      "The music and vibe make it a great hangout spot.",
-      "Total value for money. Highly recommended!",
-      "A very well-maintained and organized parlor.",
-      "Quick delivery to the table, and the order is always right.",
-      "The seating is comfortable and family-friendly.",
-      "Great location and very easy to find.",
-      "I always leave this parlor with a smile!",
-      "5 stars! Simply the best Amul parlor.",
-      "Delicious food and great service.",
-      "Highly recommended for dessert lovers.",
-      "Unmatched taste and quality.",
-      "A completely satisfying experience.",
-      "Will definitely visit again very soon!",
-      "Top-notch Ice Dish and Amul products.",
-      "Absolutely loved it. 10/10!",
-      "Best spot for evening cravings.",
-      "Perfection in every scoop!",
-      "અહીંની માવા મલાઈનો સ્વાદ અદ્ભુત છે.",
-      "અમૂલ આઈસ્ક્રીમની ક્વોલિટી હંમેશા બેસ્ટ હોય છે.",
-      "શહેરની સૌથી બેસ્ટ માવા મલાઈ અહીં મળે છે.",
-      "અમૂલના ફ્રેશ ફ્લેવર્સ ખાવાની ખૂબ મજા આવે છે.",
-      "માવા મલાઈ મોંમાં મુકતા જ ઓગળી જાય છે.",
-      "ડેઝર્ટ માટે આ એકદમ પરફેક્ટ જગ્યા છે.",
-      "અમૂલ આઈસ્ક્રીમની તાજગી અહીં સ્પષ્ટ દેખાય છે.",
-      "ક્લાસિક અમૂલ વેનીલા આઈસ્ક્રીમ મારો ફેવરિટ છે.",
-      "તેઓ માવા મલાઈમાં પ્રીમિયમ વસ્તુઓ વાપરે છે.",
-      "અમૂલ આઈસ્ક્રીમની અઢળક વેરાયટી અહીં ઉપલબ્ધ છે.",
-      "માવા મલાઈનું પોર્શન ઘણું સારું અને સંતોષકારક હોય છે.",
-      "અમૂલ ચોકલેટ સ્કોપ ખાવા માટે આ બેસ્ટ જગ્યા છે.",
-      "હું દરેકને અહીંની માવા મલાઈ ટ્રાય કરવા માટે ચોક્કસ કહીશ.",
-      "દરેક ડેઝર્ટ એકદમ પરફેક્ટ ઠંડુ હોય છે.",
-      "અસલ અમૂલનો સ્વાદ અને પ્રીમિયમ ક્વોલિટી.",
-      "અહીંનો આઈસ ડીશ ગોલો ખૂબ જ રિફ્રેશિંગ છે.",
-      "ગોલામાં બરફ એકદમ સોફ્ટ અને સરસ હોય છે.",
-      "મેં ખાધેલો સૌથી બેસ્ટ રજવાડી આઈસ ડીશ ગોલો!",
-      "ગોલામાં વપરાતા સિરપ ખૂબ જ ટેસ્ટી અને સારી ગુણવત્તાના હોય છે.",
-      "ડ્રાયફ્રૂટ આઈસ ડીશ ગોલો ખાસ ટ્રાય કરવા જેવો છે.",
-      "અહીંનો ક્લાસિક કાલા ખટ્ટા ગોલો જબરદસ્ત છે.",
-      "ગરમીમાં આ ડીશ ગોલો એકદમ પરફેક્ટ છે!",
-      "ગોલામાં સિરપ અને ટોપિંગ્સ ખૂબ જ સારી માત્રામાં આપે છે.",
-      "મારા બાળકોને ચોકલેટ આઈસ ડીશ ગોલો ખૂબ ભાવે છે.",
-      "રોઝ ફ્લેવર ગોલો એકદમ સરસ અને મીઠો છે.",
-      "આવો સારી ક્વોલિટીનો આઈસ ડીશ ગોલો ભાગ્યે જ જોવા મળે છે.",
-      "ગોલો ખાઈને બાળપણની યાદો તાજી થઈ ગઈ!",
-      "આઈસ ડીશમાં ગળપણનું પ્રમાણ એકદમ પરફેક્ટ છે.",
-      "મિક્સ ફ્રૂટ ગોલો દરેકને ભાવે તેવો છે.",
-      "હું રોજ અહીંનો આઈસ ડીશ ગોલો ખાઈ શકું છું.",
-      "પ્રેઝન્ટેશન એકદમ સરસ છે. ડીશની કિનારીઓ સાફ હોય છે અને કોઈ ચોકલેટ કે માવો ઢોળાયેલો હોતો નથી.",
-      "મને અહીંની સ્વચ્છતા ખૂબ ગમે છે. ડીશની કિનારીઓ પણ એકદમ સ્વચ્છ હોય છે.",
-      "ડીશને આપતા પહેલા તેને બરાબર સાફ કરવામાં આવે છે, જેથી ડીશ ગંદી ન લાગે.",
-      "તેઓ સ્વચ્છતાનું પૂરું ધ્યાન રાખે છે. પ્રેઝન્ટેશન એકદમ પ્રોફેશનલ છે.",
-      "સ્વચ્છતા માટે પૂરા 5 સ્ટાર. ખાવાનું એકદમ નીટ અને ક્લીન હોય છે.",
-      "ગોલા જેવી સ્ટ્રીટ આઈટમ પણ અહીં ખૂબ જ હાઈજેનિક રીતે બનાવવામાં આવે છે.",
-      "પાર્લર એકદમ સ્વચ્છ છે અને વાતાવરણ પણ સરસ છે.",
-      "ટેબલ, ફ્લોર અને ડીશ બધું જ એકદમ ક્લીન હોય છે.",
-      "હું સ્વચ્છતાનો ખૂબ આગ્રહી છું અને આ જગ્યા મને ખૂબ ગમી.",
-      "માવા મલાઈ એટલી સરસ રીતે પીરસે છે કે ડીશની આજુબાજુ કોઈ ગંદકી નથી હોતી.",
-      "સ્ટાફ સ્વચ્છતાના નિયમોનું કડક પાલન કરે છે.",
-      "આઈસ ડીશ ખૂબ જ સુંદર અને સાફ બાઉલમાં આપવામાં આવે છે.",
-      "પાર્લરમાં કિચન અને બનાવવાની જગ્યા એકદમ ચોખ્ખી છે.",
-      "તમે કોઈપણ ચિંતા વગર અહીં ખાઈ શકો છો.",
-      "ચોખ્ખું પ્રેઝન્ટેશન ડેઝર્ટનો સ્વાદ બમણો કરી દે છે.",
-      "ભીડ હોય તો પણ ડીશની સ્વચ્છતામાં કોઈ બાંધછોડ નથી હોતી.",
-      "અમૂલ પાર્લર આટલું ચોખ્ખું જોઈને ખૂબ આનંદ થયો.",
-      "વાસણો અને ચમચીઓ એકદમ સાફ હોય છે.",
-      "ફોટોગ્રાફી માટે પરફેક્ટ દેખાય તેવી સુંદર અને સાફ ડીશ પીરસે છે.",
-      "હાઈજેનિક, સ્વાદિષ્ટ અને સુંદર પ્રેઝન્ટેશન!",
-      "સ્ટાફ ખૂબ જ નમ્ર અને ઝડપી છે.",
-      "ફેમિલી સાથે ડેઝર્ટ ખાવા માટે બેસ્ટ જગ્યા.",
-      "માલિકનો સ્વભાવ સારો છે અને સારા ફ્લેવર સજેસ્ટ કરે છે.",
-      "ખૂબ જ ફાસ્ટ સર્વિસ છે.",
-      "શાંત અને ખુશનુમા વાતાવરણ.",
-      "ઉત્તમ કસ્ટમર સર્વિસ અને હસમુખો સ્ટાફ.",
-      "સારી ગુણવત્તા પ્રમાણે કિંમત એકદમ વ્યાજબી છે.",
-      "અમે જમ્યા પછી હંમેશા અમારા મહેમાનોને અહીં લાવીએ છીએ.",
-      "પાર્લરનું મ્યુઝિક અને વાતાવરણ ખૂબ મસ્ત છે.",
-      "પૈસા વસૂલ જગ્યા! 100% રેકોમેન્ડેડ.",
-      "ખૂબ જ સારી રીતે મેનેજ કરેલું પાર્લર.",
-      "ઓર્ડર એકદમ ઝડપથી અને સાચો જ મળે છે.",
-      "બેસવાની વ્યવસ્થા ખૂબ સારી છે.",
-      "લોકેશન સરસ છે અને સરળતાથી મળી જાય છે.",
-      "અહીંથી હંમેશા ખુશ થઈને જ પાછા ફરીએ છીએ!",
-      "5 સ્ટાર! અમૂલ માટે બેસ્ટ પાર્લર.",
-      "સ્વાદિષ્ટ ડેઝર્ટ અને ઉત્તમ સર્વિસ.",
-      "મીઠાઈના શોખીનો માટે શ્રેષ્ઠ જગ્યા.",
-      "સ્વાદ અને ક્વોલિટીમાં કોઈ જ તોડ નથી.",
-      "એકદમ સંતોષકારક અનુભવ.",
-      "હું ચોક્કસ ફરીથી જલ્દી આવીશ!",
-      "બેસ્ટ આઈસ ડીશ અને અમૂલ પ્રોડક્ટ્સ.",
-      "મને આ જગ્યા ખૂબ જ ગમી. 10/10!",
-      "સાંજના સમયે કંઈક મીઠું ખાવા માટે બેસ્ટ સ્પોટ.",
-      "દરેક ચમચીમાં પરફેક્ટ સ્વાદ!"
-    ];
+    /* ─────────────────────────────────────────
+       REVIEWS BY CATEGORY — TAP TO BUILD
+       ───────────────────────────────────────── */
+    const REVIEWS_BY_CATEGORY = {
+      '🍦 Ice Cream Taste': [
+        'The ice cream was absolutely delicious and full of flavor.',
+        'Every scoop tasted fresh and creamy.',
+        'The flavors were rich, smooth, and perfectly balanced.',
+        'One of the best ice creams I\'ve ever had.',
+        'The taste exceeded my expectations.',
+        'Every bite was fresh and satisfying.',
+        'The ice cream had a rich and premium taste.',
+        'I loved the authentic and natural flavors.',
+        'The sweetness was just perfect.',
+        'The texture was smooth and creamy.',
+        'Every flavor I tried was amazing.',
+        'The ice cream melted perfectly and tasted great.',
+        'The quality of the flavors was outstanding.',
+        'It was refreshing and incredibly tasty.',
+        'The ice cream tasted exactly how premium ice cream should.',
+        'I enjoyed every bite from start to finish.',
+        'The flavor stayed enjoyable until the last scoop.',
+        'The taste was consistent and excellent.',
+        'This place serves truly delicious ice cream.',
+        'I can\'t wait to try more flavors.',
+        'Highly recommended for anyone who loves great ice cream.',
+      ],
+      '⭐ Quality': [
+        'The quality of the ice cream was excellent.',
+        'Everything tasted fresh and premium.',
+        'You can really notice the high-quality ingredients.',
+        'The quality exceeded my expectations.',
+        'Every product was fresh and well prepared.',
+        'The ice cream was served in perfect condition.',
+        'The overall quality was outstanding.',
+        'The freshness was clearly noticeable.',
+        'I was impressed with the premium quality.',
+        'The consistency and quality were excellent.',
+        'The products were fresh and delicious.',
+        'The quality has been consistently good every visit.',
+        'The ingredients tasted natural and fresh.',
+        'The presentation and quality were both excellent.',
+        'This shop maintains very high quality standards.',
+        'The quality made the experience even better.',
+        'Everything was served fresh and hygienically.',
+        'You definitely get premium quality here.',
+        'The attention to quality is impressive.',
+        'I would happily come back because of the quality.',
+        'Excellent quality that is worth every rupee.',
+      ],
+      '😊 Service': [
+        'The staff was very friendly and welcoming.',
+        'I received excellent customer service.',
+        'The staff was polite and helpful throughout.',
+        'Everyone greeted us with a smile.',
+        'The service was quick and professional.',
+        'The team made us feel valued as customers.',
+        'The staff was attentive and courteous.',
+        'I really appreciated the friendly behavior.',
+        'The service exceeded my expectations.',
+        'The employees were patient and helpful.',
+        'Great customer service from start to finish.',
+        'The staff handled everything professionally.',
+        'I was served with a smile.',
+        'The team was very cooperative.',
+        'They made the whole experience enjoyable.',
+        'Excellent hospitality from the staff.',
+        'The service was efficient and pleasant.',
+        'The staff answered all our questions politely.',
+        'I was impressed by the customer care.',
+        'Their service made me want to visit again.',
+        'Outstanding service that deserves appreciation.',
+      ],
+      '⚡ Speed': [
+        'My order was prepared very quickly.',
+        'The service was fast without compromising quality.',
+        'I didn\'t have to wait long at all.',
+        'Everything was served promptly.',
+        'The ordering process was smooth and quick.',
+        'The staff handled orders efficiently.',
+        'The service was impressively fast.',
+        'My ice cream was ready in no time.',
+        'The waiting time was minimal.',
+        'Everything was delivered on time.',
+        'The speed of service was excellent.',
+        'The order was prepared faster than expected.',
+        'I really appreciated the quick service.',
+        'Fast service made the visit even better.',
+        'The team worked efficiently.',
+        'The entire process was hassle-free.',
+        'Excellent speed and organization.',
+        'Even during busy hours, the service was quick.',
+        'I was pleasantly surprised by the fast service.',
+        'Quick service without sacrificing quality.',
+        'Great place if you\'re looking for fast service.',
+      ],
+      '🧼 Cleanliness': [
+        'The shop was very clean and hygienic.',
+        'Everything looked neat and well maintained.',
+        'The cleanliness of the shop was impressive.',
+        'The seating area was spotless.',
+        'The environment felt fresh and clean.',
+        'Hygiene standards were clearly maintained.',
+        'The counters and serving area were very clean.',
+        'I felt comfortable because everything was so clean.',
+        'The shop was well organized and tidy.',
+        'The cleanliness added to the great experience.',
+        'Everything looked professionally maintained.',
+        'The place was sparkling clean.',
+        'The overall hygiene was excellent.',
+        'Clean surroundings made the visit enjoyable.',
+        'I appreciated the attention to cleanliness.',
+        'The shop was one of the cleanest I\'ve visited.',
+        'Everything was presented in a hygienic way.',
+        'A clean and pleasant place to enjoy ice cream.',
+        'The staff clearly cares about hygiene.',
+        'The shop was fresh, clean, and inviting.',
+        'Excellent cleanliness throughout the store.',
+      ],
+      '🏪 Atmosphere': [
+        'The atmosphere was warm and welcoming.',
+        'The shop had a wonderful ambience.',
+        'It was a comfortable place to relax.',
+        'The seating area was pleasant and cozy.',
+        'The overall vibe was cheerful and enjoyable.',
+        'The shop had a lovely interior.',
+        'It was a perfect place to spend time with family.',
+        'I really liked the atmosphere here.',
+        'The ambience made the experience even better.',
+        'The shop felt clean, bright, and inviting.',
+        'It was a peaceful and relaxing environment.',
+        'The décor was attractive and modern.',
+        'The atmosphere was perfect for enjoying ice cream.',
+        'The place had a great family-friendly feel.',
+        'I loved the overall environment of the shop.',
+        'The lighting and décor created a great experience.',
+        'The ambience was both comfortable and stylish.',
+        'It was a great place to sit and enjoy.',
+        'The shop had positive and welcoming vibes.',
+        'The environment made me want to stay longer.',
+        'Overall, the atmosphere was excellent.',
+      ],
+      '💰 Value for Money': [
+        'The ice cream was definitely worth the price.',
+        'I got great value for the money I spent.',
+        'The quality easily justified the price.',
+        'The prices were very reasonable.',
+        'Excellent quality at an affordable price.',
+        'The portion size was worth the cost.',
+        'Great taste without spending too much.',
+        'I was happy with what I received for the price.',
+        'The pricing was fair and reasonable.',
+        'It offered excellent value for money.',
+        'Every rupee spent was worth it.',
+        'The quality exceeded the price I paid.',
+        'Good prices for such premium ice cream.',
+        'Affordable and satisfying.',
+        'The overall experience was worth every penny.',
+        'The pricing was competitive and fair.',
+        'Great quality at a budget-friendly price.',
+        'I would happily spend my money here again.',
+        'The shop offers excellent value compared to others.',
+        'Fantastic experience at a reasonable price.',
+        'I highly recommend this place for its value for money.',
+      ],
+    };
 
     /* ─────────────────────────────────────────
        STATE
@@ -983,8 +1032,8 @@
     /* ─────────────────────────────────────────
        RENDER STARS
        ───────────────────────────────────────── */
-    const starBtns   = document.querySelectorAll('.star-btn');
-    const starLabel  = document.getElementById('star-label');
+    const starBtns  = document.querySelectorAll('.star-btn');
+    const starLabel = document.getElementById('star-label');
 
     function renderStars(fillUpTo) {
       starBtns.forEach((btn, i) => {
@@ -1017,9 +1066,8 @@
         currentRating = val;
         renderStars(val);
         starLabel.textContent = STAR_LABELS[val - 1];
-        // Animate the clicked star
         btn.classList.remove('pop');
-        void btn.offsetWidth; // reflow
+        void btn.offsetWidth;
         btn.classList.add('pop');
         handleRouting(val);
       });
@@ -1041,7 +1089,7 @@
       if (rating >= 4) {
         positiveBadge.textContent = `${stars} You rated us ${rating} Star${rating > 1 ? 's' : ''}!`;
         positiveBadge.className = 'rating-badge positive';
-        loadRandomTemplates();
+        initCategoryTags();
         revealSection(positiveSection);
       } else {
         negativeBadge.textContent = `${stars} You rated us ${rating} Star${rating > 1 ? 's' : ''}`;
@@ -1061,38 +1109,54 @@
     }
 
     /* ─────────────────────────────────────────
-       RANDOM TEMPLATES
+       CATEGORY TAG SYSTEM
        ───────────────────────────────────────── */
-    const templatesGrid    = document.getElementById('templates-grid');
+    const tagsWrap         = document.getElementById('tags-wrap');
     const positiveTextarea = document.getElementById('positive-textarea');
     const charCount        = document.getElementById('char-count');
 
-    function loadRandomTemplates() {
-      templatesGrid.innerHTML = '';
-      const shuffled = [...REVIEW_POOL].sort(() => Math.random() - 0.5).slice(0, 4);
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
 
-      shuffled.forEach(text => {
-        const chip = document.createElement('button');
-        chip.type = 'button';
-        chip.className = 'template-chip';
-        chip.setAttribute('role', 'listitem');
-        chip.textContent = text;
-        chip.setAttribute('aria-label', `Select: ${text}`);
+    function initCategoryTags() {
+      tagsWrap.innerHTML = '';
+      positiveTextarea.value = '';
+      charCount.textContent  = '0';
 
-        chip.addEventListener('click', () => {
-          document.querySelectorAll('.template-chip').forEach(c => c.classList.remove('selected'));
-          chip.classList.add('selected');
-          positiveTextarea.value = text;
-          charCount.textContent  = text.length;
+      Object.entries(REVIEWS_BY_CATEGORY).forEach(([label, sentences]) => {
+        const pill = document.createElement('button');
+        pill.type      = 'button';
+        pill.className = 'category-pill';
+        pill.setAttribute('aria-label', `Add a sentence about ${label}`);
+        pill.innerHTML = `<span class="pill-emoji" aria-hidden="true">${label.split(' ')[0]}</span>${label.slice(label.indexOf(' ') + 1)}`;
+
+        pill.addEventListener('click', () => {
+          const sentence = pickRandom(sentences);
+          const current  = positiveTextarea.value.trim();
+          // Append with a space separator when content already exists
+          positiveTextarea.value = current ? `${current} ${sentence}` : sentence;
+          charCount.textContent  = positiveTextarea.value.length;
+          // Mark pill as used
+          pill.classList.add('used');
+          // Brief visual feedback pulse
+          pill.classList.remove('pop');
+          void pill.offsetWidth;
+          pill.classList.add('pop');
           positiveTextarea.focus();
         });
 
-        templatesGrid.appendChild(chip);
+        tagsWrap.appendChild(pill);
       });
+    }
 
+    /* Clear review button */
+    document.getElementById('clear-review-btn').addEventListener('click', () => {
       positiveTextarea.value = '';
       charCount.textContent  = '0';
-    }
+      document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('used'));
+      positiveTextarea.focus();
+    });
 
     /* ─────────────────────────────────────────
        CHAR COUNTERS
@@ -1102,7 +1166,6 @@
 
     positiveTextarea.addEventListener('input', () => {
       charCount.textContent = positiveTextarea.value.length;
-      document.querySelectorAll('.template-chip').forEach(c => c.classList.remove('selected'));
     });
 
     negativeTextarea.addEventListener('input', () => {
