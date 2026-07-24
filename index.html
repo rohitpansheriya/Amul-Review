@@ -25,7 +25,7 @@
         @media screen {
             .poster-view { display: none; }
             .app-container { 
-                max-width: 900px; 
+                max-width: 500px; 
                 margin: 40px auto; 
                 background: white; 
                 min-height: auto; 
@@ -33,33 +33,11 @@
                 border-radius: 16px;
                 box-sizing: border-box; 
                 box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                display: flex; 
-                gap: 30px;
-                align-items: flex-start;
-            }
-
-            .left-column {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-            }
-            .left-column img {
-                width: 100%;
-                border-radius: 12px;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-                object-fit: cover;
-            }
-
-            .right-column {
-                flex: 1;
                 text-align: center;
-                width: 100%;
             }
 
             @media (max-width: 768px) {
                 .app-container {
-                    flex-direction: column;
                     margin: 0;
                     border-radius: 0;
                     min-height: 100vh;
@@ -74,16 +52,6 @@
                 margin-bottom: 24px; 
             }
             
-            .parlor-img {
-                width: 110px;
-                height: 110px;
-                border-radius: 50%;
-                object-fit: cover;
-                border: 3px solid white;
-                margin-bottom: 15px;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            }
-
             .header h2 { margin: 0 0 8px 0; font-size: 24px; }
             .header p { margin: 0; font-size: 15px; opacity: 0.9; }
             
@@ -206,52 +174,41 @@
     <!-- 2. WEB APP -->
     <div class="app-container">
         
-        <!-- Left Side: Photos -->
-        <div class="left-column">
-            <img src="photo1.jpg" alt="Amul Ice Cream Parlor" onerror="this.style.display='none'">
-            <img src="photo2.jpg" alt="Mava Malai Dessert" onerror="this.style.display='none'">
-            <img src="photo3.jpg" alt="Ice Dish Gola" onerror="this.style.display='none'">
+        <div class="header">
+            <h2>Amul Ice Cream Parlor</h2>
+            <p>Thank you for visiting! How many stars?</p>
         </div>
 
-        <!-- Right Side: Interaction -->
-        <div class="right-column">
-            <div class="header">
-                <img src="parlor.jpg" alt="Our Amul Parlor" class="parlor-img" onerror="this.style.display='none'">
-                <h2>Amul Ice Cream Parlor</h2>
-                <p>Thank you for visiting! How many stars?</p>
-            </div>
-
-            <div class="stars" id="star-container">
-                <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
-            </div>
-            <p style="color: #666; margin-top: -5px; margin-bottom: 24px; font-size: 14px;">Tap a star to begin</p>
-
-            <!-- 4 OR 5 STARS: GOOGLE REVIEWS ROUTE -->
-            <div id="step2-positive">
-                <div class="template-title">Choose a review or type your own:</div>
-                <div class="template-btns" id="template-container"></div>
-                <textarea id="review-text-positive" placeholder="Your review will appear here..."></textarea>
-                <button class="action-btn" id="submit-btn" onclick="copyAndRedirect()">Copy & Open Google Maps</button>
-                <p class="helper-text">Your review will be copied securely. Just tap <strong>Paste</strong> and select 5 stars on the next screen!</p>
-            </div>
-
-            <!-- 1, 2, OR 3 STARS: WHATSAPP ROUTE -->
-            <div id="step2-negative">
-                <div class="template-title" style="color: var(--amul-red);">We apologize for your experience.</div>
-                <p class="apology-text">Your feedback is very important to us. Please let the manager know what went wrong so we can fix it immediately.</p>
-                <textarea id="review-text-negative" placeholder="Tell us how we can improve..."></textarea>
-                <button class="action-btn whatsapp-btn" onclick="sendToWhatsApp()">Send Feedback to Manager</button>
-                <p class="helper-text">This will open a direct, private WhatsApp chat with the owner.</p>
-            </div>
+        <div class="stars" id="star-container">
+            <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
         </div>
+        <p style="color: #666; margin-top: -5px; margin-bottom: 24px; font-size: 14px;">Tap a star to begin</p>
+
+        <!-- 4 OR 5 STARS: GOOGLE REVIEWS ROUTE -->
+        <div id="step2-positive">
+            <div class="template-title">Choose a review or type your own:</div>
+            <div class="template-btns" id="template-container"></div>
+            <textarea id="review-text-positive" placeholder="Your review will appear here..."></textarea>
+            <button class="action-btn" id="submit-btn" onclick="copyAndRedirect()">Copy & Open Google Maps</button>
+            <p class="helper-text">Your review will be copied securely. Just tap <strong>Paste</strong> and select 5 stars on the next screen!</p>
+        </div>
+
+        <!-- 1, 2, OR 3 STARS: WHATSAPP ROUTE -->
+        <div id="step2-negative">
+            <div class="template-title" style="color: var(--amul-red);">We apologize for your experience.</div>
+            <p class="apology-text">Your feedback is very important to us. Please let the manager know what went wrong so we can fix it immediately.</p>
+            <textarea id="review-text-negative" placeholder="Tell us how we can improve..."></textarea>
+            <button class="action-btn whatsapp-btn" onclick="sendToWhatsApp()">Send Feedback to Manager</button>
+            <p class="helper-text">This will open a direct, private WhatsApp chat with the owner.</p>
+        </div>
+        
     </div>
 
     <!-- 3. JAVASCRIPT LOGIC -->
     <script>
         // --- CONFIGURATION ---
         const WHATSAPP_NUMBER = "918866390389"; 
-        const PLACE_ID = "ChIJsx-pzRpP4DsR2xDIxw4_y5o"; // Add Place ID for Android
-        const IOS_REVIEW_LINK = "https://g.page/r/CdsQyMcOP8uaEBM/review"; // Your specific Google link
+        const GOOGLE_REVIEW_LINK = "https://g.page/r/CdsQyMcOP8uaEBM/review"; // Universal Link for all devices
 
         const stars = document.querySelectorAll('.stars span');
         const step2Positive = document.getElementById('step2-positive');
@@ -348,23 +305,6 @@
             "દરેક ચમચીમાં પરફેક્ટ સ્વાદ!"
         ];
 
-        // --- NATIVE APP DETECTION URL ---
-       function getNativeAppUrl() {
-            const isAndroid = /android/i.test(navigator.userAgent || navigator.vendor || window.opera);
-            
-            // તમારી જે શોર્ટ લિંક છે (દા.ત. https://g.page/r/CdsQyMcOP8uaEBM/review)
-            // તેમાંથી 'https://' કાઢીને તેને સીધી Android Intent માં પાસ કરીએ છીએ.
-            
-            if (isAndroid) {
-                // આ સીધો કમાન્ડ આપશે: "ગૂગલ મેપ્સ એપ ઓપન કરો અને આ g.page લિંક લોડ કરો"
-                const intentUrl = IOS_REVIEW_LINK.replace("https://", "");
-                return `intent://${intentUrl}#Intent;package=com.google.android.apps.maps;scheme=https;end;`;
-            } else {
-                // iPhone અને Desktop માટે સીધી લિંક
-                return IOS_REVIEW_LINK;
-            }
-        }
-
         // --- RANDOM TEMPLATES ---
         function loadRandomTemplates() {
             templateContainer.innerHTML = ''; 
@@ -396,7 +336,6 @@
                     stars[i].classList.add('active');
                 }
                 
-                // The Gate: Route based on stars
                 if (value >= 4) {
                     step2Positive.style.display = 'block';
                     step2Negative.style.display = 'none';
@@ -410,7 +349,7 @@
             });
         });
 
-        // --- GOOGLE MAPS REDIRECT ---
+        // --- GOOGLE MAPS REDIRECT (FINAL FIX) ---
         function copyAndRedirect() {
             const textToCopy = reviewTextPositive.value.trim();
             if (!textToCopy) {
@@ -423,16 +362,17 @@
                 submitBtn.style.backgroundColor = "#28a745"; 
                 
                 setTimeout(() => { 
-                    // અદ્રશ્ય <a> ટેગ બનાવીને ફોર્સ ક્લિક કરાવવાની રીત (To bypass browser block)
+                    // બ્રાઉઝરની સુરક્ષાને બાયપાસ કરવા અને Android ને એપ ઓપન કરવા દેવા માટે,
+                    // આપણે _blank ટાર્ગેટ સાથે <a> ટેગ પર ક્લિક કરાવીએ છીએ.
                     const link = document.createElement('a');
-                    link.href = getNativeAppUrl();
-                    link.target = '_top'; 
+                    link.href = GOOGLE_REVIEW_LINK;
+                    link.target = '_blank'; 
                     document.body.appendChild(link);
                     link.click();
-                }, 600); // 1200ms થી ઘટાડીને 600ms કર્યું છે, જેથી Android તેને ડાયરેક્ટ એક્શન ગણે.
+                }, 600);
                 
             }).catch(() => {
-                window.location.href = getNativeAppUrl();
+                window.location.href = GOOGLE_REVIEW_LINK;
             });
         }
 
