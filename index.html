@@ -351,8 +351,10 @@
         // --- NATIVE APP DETECTION URL ---
         function getNativeAppUrl() {
             const isAndroid = /android/i.test(navigator.userAgent || navigator.vendor || window.opera);
-            if (isAndroid && PLACE_ID !== "YOUR_PLACE_ID_HERE") {
-                return `intent://search.google.com/local/writereview?placeid=${PLACE_ID}#Intent;package=com.google.android.apps.maps;scheme=https;end;`;
+            if (isAndroid) {
+                // આમાં S.browser_fallback_url એડ કર્યું છે, જેથી એરર ન આવે
+                const fallback = encodeURIComponent(`https://search.google.com/local/writereview?placeid=${PLACE_ID}`);
+                return `intent://search.google.com/local/writereview?placeid=${PLACE_ID}#Intent;package=com.google.android.apps.maps;scheme=https;S.browser_fallback_url=${fallback};end;`;
             } else {
                 return IOS_REVIEW_LINK;
             }
@@ -414,7 +416,16 @@
             navigator.clipboard.writeText(textToCopy).then(() => {
                 submitBtn.innerText = "✓ Copied! Opening Google Maps...";
                 submitBtn.style.backgroundColor = "#28a745"; 
-                setTimeout(() => { window.location.href = getNativeAppUrl(); }, 1200);
+                
+                setTimeout(() => { 
+                    // અદ્રશ્ય <a> ટેગ બનાવીને ફોર્સ ક્લિક કરાવવાની રીત (To bypass browser block)
+                    const link = document.createElement('a');
+                    link.href = getNativeAppUrl();
+                    link.target = '_top'; 
+                    document.body.appendChild(link);
+                    link.click();
+                }, 600); // 1200ms થી ઘટાડીને 600ms કર્યું છે, જેથી Android તેને ડાયરેક્ટ એક્શન ગણે.
+                
             }).catch(() => {
                 window.location.href = getNativeAppUrl();
             });
