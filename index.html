@@ -1,394 +1,1192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rate Our Amul Parlor</title>
-    <style>
-        /* --- Brand Colors & Base Setup --- */
-        :root { 
-            --amul-blue: #00458b; 
-            --amul-light-blue: #eef5ff;
-            --amul-red: #e21b22; 
-            --star-gold: #ffc107;
-            --whatsapp-green: #25D366;
-        }
-        body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            background-color: #f8f9fa; 
-            -webkit-tap-highlight-color: transparent;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rate Our Amul Parlor</title>
+  <meta name="description" content="Share your experience at our Amul Ice Cream Parlor. Rate us and help us serve you better!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ===================================
+       CSS VARIABLES — BRAND CONFIGURATION
+       =================================== */
+    :root {
+      --color-primary:    #00458b;
+      --color-secondary:  #eef5ff;
+      --color-accent:     #e21b22;
+      --color-star:       #ffc107;
+      --color-whatsapp:   #25D366;
+      --color-text-dark:  #1a2340;
+      --color-text-mid:   #445070;
+      --color-text-light: #7a8aaa;
+      --color-white:      #ffffff;
+      --color-bg:         #f0f4fa;
+      --color-card:       #ffffff;
+      --color-border:     #dce6f5;
 
-        /* --- MOBILE & DESKTOP WEB APP VIEW --- */
-        @media screen {
-            .poster-view { display: none; }
-            .app-container { 
-                max-width: 500px; 
-                margin: 40px auto; 
-                background: white; 
-                min-height: auto; 
-                padding: 24px; 
-                border-radius: 16px;
-                box-sizing: border-box; 
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                text-align: center;
-            }
+      --radius-sm:  8px;
+      --radius-md:  14px;
+      --radius-lg:  22px;
+      --radius-xl:  32px;
 
-            @media (max-width: 768px) {
-                .app-container {
-                    margin: 0;
-                    border-radius: 0;
-                    min-height: 100vh;
-                }
-            }
+      --shadow-card: 0 4px 24px rgba(0, 69, 139, 0.10), 0 1px 4px rgba(0,0,0,0.06);
+      --shadow-btn:  0 4px 18px rgba(226, 27, 34, 0.28);
 
-            .header { 
-                background: var(--amul-blue); 
-                color: white; 
-                padding: 24px 16px; 
-                border-radius: 12px; 
-                margin-bottom: 24px; 
-            }
-            
-            .header h2 { margin: 0 0 8px 0; font-size: 24px; }
-            .header p { margin: 0; font-size: 15px; opacity: 0.9; }
-            
-            .stars { font-size: 48px; color: #e0e0e0; cursor: pointer; margin: 10px 0; letter-spacing: 5px; }
-            .stars span { transition: color 0.2s ease; }
-            .stars span.active { color: var(--star-gold); }
-            
-            /* UI States */
-            #step2-positive, #step2-negative { display: none; animation: fadeIn 0.5s ease; }
-            @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-            
-            .template-title { color: var(--amul-blue); text-align: left; font-size: 16px; margin-bottom: 12px; font-weight: 600; }
-            .template-btns { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-            .btn-tmpl { 
-                background: var(--amul-light-blue); 
-                border: 1px solid #d1e3ff; 
-                color: var(--amul-blue); 
-                padding: 14px 16px; 
-                border-radius: 8px; 
-                font-size: 15px;
-                font-weight: 500; 
-                cursor: pointer; 
-                text-align: left; 
-                transition: all 0.2s ease;
-            }
-            .btn-tmpl:active, .btn-tmpl.selected { 
-                background: var(--amul-blue); 
-                color: white; 
-                border-color: var(--amul-blue);
-            }
-            
-            textarea { 
-                width: 100%; 
-                height: 80px; 
-                padding: 12px; 
-                border-radius: 8px; 
-                border: 1px solid #ccc; 
-                font-family: inherit; 
-                font-size: 15px;
-                margin-bottom: 20px; 
-                box-sizing: border-box; 
-                resize: none; 
-            }
-            textarea:focus { outline: 2px solid var(--amul-blue); border-color: transparent; }
-            
-            .action-btn { 
-                background: var(--amul-red); 
-                color: white; 
-                border: none; 
-                padding: 16px 20px; 
-                font-size: 18px; 
-                font-weight: bold; 
-                border-radius: 8px; 
-                width: 100%; 
-                cursor: pointer; 
-                box-shadow: 0 4px 6px rgba(226, 27, 34, 0.2);
-                transition: background 0.2s ease;
-            }
-            .action-btn:active { background: #b8151b; }
+      --font-body: 'Inter', sans-serif;
+      --font-head: 'Outfit', sans-serif;
 
-            .whatsapp-btn {
-                background: var(--whatsapp-green);
-                box-shadow: 0 4px 6px rgba(37, 211, 102, 0.2);
-            }
-            .whatsapp-btn:active { background: #1da851; }
+      --transition: 0.22s cubic-bezier(.4,0,.2,1);
+    }
 
-            .helper-text { font-size: 13px; color: #666; margin-top: 12px; line-height: 1.4; }
-            .apology-text { font-size: 15px; color: #555; margin-bottom: 15px; text-align: left; }
-        }
+    /* ===================================
+       RESET AND BASE
+       =================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-        /* --- A4 PRINT POSTER VIEW --- */
-        @media print {
-            @page { size: A4; margin: 0; }
-            .app-container { display: none !important; }
-            .poster-view { 
-                display: flex; 
-                flex-direction: column; 
-                align-items: center; 
-                justify-content: center; 
-                height: 100vh; 
-                text-align: center; 
-                background: var(--amul-blue); 
-                color: white; 
-                padding: 40px; 
-                box-sizing: border-box; 
-            }
-            .poster-view h1 { font-size: 72px; margin: 0 0 20px 0; font-weight: 900; letter-spacing: 2px; }
-            .poster-view h2 { font-size: 45px; margin: 0 0 50px 0; color: var(--star-gold); }
-            .qr-box { 
-                width: 350px; 
-                height: 350px; 
-                background: white; 
-                border: 15px solid white; 
-                border-radius: 24px; 
-                margin-bottom: 50px; 
-                display: flex; 
-                align-items: center; 
-                justify-content: center; 
-                color: #999; 
-                font-size: 24px; 
-                font-weight: bold;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            }
-            .poster-view p { font-size: 32px; font-weight: 500; line-height: 1.5; margin: 0; }
-            .poster-view .footer-text { font-size: 24px; margin-top: 30px; color: var(--star-gold); }
-        }
-    </style>
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 16px 48px;
+    }
+
+    /* ===================================
+       WEB APP CONTAINER
+       =================================== */
+    #app {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ===================================
+       HERO HEADER
+       =================================== */
+    .hero-header {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #0060c0 100%);
+      border-radius: var(--radius-xl);
+      padding: 36px 28px 30px;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(0, 69, 139, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+
+    .hero-header::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: -40px;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      pointer-events: none;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+      padding: 6px 16px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-badge-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--color-star);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.6; transform: scale(1.3); }
+    }
+
+    .brand-badge-text {
+      color: var(--color-white);
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-greeting {
+      color: var(--color-white);
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-sub {
+      color: rgba(255,255,255,0.72);
+      font-size: 13px;
+      font-weight: 400;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===================================
+       STAR RATING
+       =================================== */
+    .stars-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .star-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 50%;
+      outline: none;
+      transition: transform var(--transition);
+    }
+
+    .star-btn:focus-visible {
+      outline: 3px solid rgba(255,255,255,0.6);
+      outline-offset: 2px;
+    }
+
+    .star-btn svg {
+      width: 48px;
+      height: 48px;
+      display: block;
+      filter: drop-shadow(0 2px 8px rgba(255,193,7,0));
+      transition: filter var(--transition), transform var(--transition);
+    }
+
+    .star-btn.active svg {
+      filter: drop-shadow(0 2px 10px rgba(255,193,7,0.55));
+    }
+
+    .star-btn:hover {
+      transform: scale(1.18);
+    }
+
+    .star-btn.pop {
+      animation: star-pop 0.3s ease;
+    }
+
+    @keyframes star-pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.35); }
+      100% { transform: scale(1); }
+    }
+
+    .star-label {
+      color: rgba(255,255,255,0.65);
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 12px;
+      min-height: 20px;
+      transition: color var(--transition);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===================================
+       SECTION CARDS
+       =================================== */
+    .section-card {
+      background: var(--color-card);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--color-border);
+      display: none;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.38s ease, transform 0.38s ease;
+    }
+
+    .section-card.visible  { display: block; }
+    .section-card.animated { opacity: 1; transform: translateY(0); }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .section-icon { font-size: 22px; line-height: 1; }
+
+    .section-desc {
+      color: var(--color-text-mid);
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* ===================================
+       RATING BADGE
+       =================================== */
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .rating-badge.positive { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .rating-badge.negative { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+    /* ===================================
+       REVIEW TEMPLATES
+       =================================== */
+    .templates-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
+
+    .templates-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .template-chip {
+      background: var(--color-secondary);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 11px 13px;
+      font-size: 12.5px;
+      color: var(--color-text-mid);
+      cursor: pointer;
+      text-align: left;
+      line-height: 1.45;
+      transition: background var(--transition), border-color var(--transition),
+                  color var(--transition), transform var(--transition), box-shadow var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .template-chip:hover {
+      background: #dbeafe;
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,69,139,0.12);
+    }
+
+    .template-chip.selected {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: var(--color-white);
+      box-shadow: 0 4px 16px rgba(0,69,139,0.3);
+    }
+
+    /* ===================================
+       TEXTAREA
+       =================================== */
+    .review-textarea {
+      width: 100%;
+      min-height: 110px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--color-text-dark);
+      background: var(--color-secondary);
+      resize: vertical;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+      line-height: 1.6;
+    }
+
+    .review-textarea:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(0, 69, 139, 0.12);
+      background: var(--color-white);
+    }
+
+    .review-textarea::placeholder { color: var(--color-text-light); }
+
+    .char-counter {
+      text-align: right;
+      font-size: 11.5px;
+      color: var(--color-text-light);
+      margin-top: 5px;
+      margin-bottom: 18px;
+    }
+
+    /* ===================================
+       OR DIVIDER
+       =================================== */
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 16px 0;
+      color: var(--color-text-light);
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .or-divider::before, .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    /* ===================================
+       BUTTONS
+       =================================== */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      width: 100%;
+      padding: 16px 22px;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+      letter-spacing: 0.2px;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-accent) 0%, #ff4040 100%);
+      color: var(--color-white);
+      box-shadow: var(--shadow-btn);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(226,27,34,0.38);
+      filter: brightness(1.06);
+    }
+
+    .btn-whatsapp {
+      background: linear-gradient(135deg, var(--color-whatsapp) 0%, #1ebe58 100%);
+      color: var(--color-white);
+      box-shadow: 0 4px 18px rgba(37, 211, 102, 0.32);
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(37,211,102,0.42);
+      filter: brightness(1.05);
+    }
+
+    /* ===================================
+       APOLOGY BOX
+       =================================== */
+    .apology-box {
+      background: #fff5f5;
+      border: 1.5px solid #fecaca;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .apology-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+    .apology-text { color: #7f1d1d; font-size: 13.5px; line-height: 1.6; }
+
+    /* ===================================
+       TOAST
+       =================================== */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1a2340;
+      color: #fff;
+      padding: 13px 24px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+      transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s ease;
+      opacity: 0;
+      z-index: 9999;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* ===================================
+       FOOTER
+       =================================== */
+    .app-footer {
+      text-align: center;
+      color: var(--color-text-light);
+      font-size: 12px;
+      padding-top: 8px;
+    }
+
+    /* ===================================
+       RESPONSIVE
+       =================================== */
+    @media (max-width: 400px) {
+      .hero-greeting  { font-size: 19px; }
+      .star-btn svg   { width: 40px; height: 40px; }
+      .templates-grid { grid-template-columns: 1fr; }
+      .section-card   { padding: 22px 18px; }
+    }
+
+    /* ===================================
+       A4 PRINT POSTER
+       =================================== */
+    @media print {
+      #app, #toast { display: none !important; }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        display: block;
+      }
+
+      #print-poster {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 210mm;
+        min-height: 297mm;
+        padding: 20mm 18mm;
+        font-family: 'Inter', sans-serif;
+        background: #ffffff;
+        text-align: center;
+        box-sizing: border-box;
+        margin: 0 auto;
+      }
+
+      .poster-brand {
+        font-family: 'Outfit', sans-serif;
+        font-size: 13pt;
+        font-weight: 600;
+        color: #00458b;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 10mm;
+        padding: 6pt 18pt;
+        border: 2pt solid #00458b;
+        border-radius: 100pt;
+        display: inline-block;
+      }
+
+      .poster-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 32pt;
+        font-weight: 900;
+        color: #1a2340;
+        line-height: 1.2;
+        margin-bottom: 6mm;
+      }
+
+      .poster-title span { color: #e21b22; }
+
+      .poster-subtitle {
+        font-size: 13pt;
+        color: #445070;
+        margin-bottom: 12mm;
+        line-height: 1.5;
+        max-width: 120mm;
+      }
+
+      .poster-stars {
+        display: flex;
+        gap: 3mm;
+        margin-bottom: 8mm;
+        justify-content: center;
+      }
+
+      .poster-star { font-size: 22pt; color: #ffc107; }
+
+      .poster-qr-wrapper {
+        width: 70mm;
+        height: 70mm;
+        border: 3pt solid #00458b;
+        border-radius: 8mm;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10mm;
+        padding: 4mm;
+        position: relative;
+      }
+
+      .poster-qr-inner {
+        width: 60mm;
+        height: 60mm;
+        background: repeating-conic-gradient(#e8e8e8 0% 25%, #ffffff 0% 50%) 0 0 / 5mm 5mm;
+        border-radius: 4mm;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .poster-qr-placeholder-text {
+        font-family: 'Outfit', sans-serif;
+        font-size: 9pt;
+        font-weight: 700;
+        color: #00458b;
+        background: rgba(255,255,255,0.92);
+        padding: 4pt 8pt;
+        border-radius: 4pt;
+        text-align: center;
+        line-height: 1.4;
+      }
+
+      .poster-scan-steps {
+        list-style: none;
+        margin-bottom: 10mm;
+        text-align: left;
+        width: 100%;
+        max-width: 130mm;
+      }
+
+      .poster-scan-steps li {
+        display: flex;
+        align-items: flex-start;
+        gap: 8pt;
+        font-size: 12pt;
+        color: #445070;
+        margin-bottom: 5mm;
+        line-height: 1.4;
+      }
+
+      .step-num {
+        background: #00458b;
+        color: #ffffff;
+        font-family: 'Outfit', sans-serif;
+        font-size: 10pt;
+        font-weight: 700;
+        width: 18pt;
+        height: 18pt;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 1pt;
+      }
+
+      .poster-divider {
+        width: 80mm;
+        height: 1pt;
+        background: #dce6f5;
+        margin: 8mm 0;
+      }
+
+      .poster-footer-text {
+        font-size: 10pt;
+        color: #7a8aaa;
+        font-style: italic;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- 1. PRINT POSTER -->
-    <div class="poster-view">
-        <h1>Amul Ice Cream</h1>
-        <h2>Scan to Rate Us! ★★★★★</h2>
-        <div class="qr-box">[ ADD YOUR QR CODE HERE ]</div>
-        <p>Scan with your phone camera<br>to share your experience.</p>
-        <p class="footer-text">It takes less than 30 seconds!</p>
+  <!-- ==========================================
+       WEB APP
+       ========================================== -->
+  <div id="app">
+
+    <!-- HERO HEADER -->
+    <header class="hero-header">
+      <div class="brand-badge" aria-label="Brand name">
+        <span class="brand-badge-dot" aria-hidden="true"></span>
+        <span class="brand-badge-text">Amul Ice Cream</span>
+      </div>
+      <h1 class="hero-greeting">Thank you for visiting!<br>How many stars?</h1>
+      <p class="hero-sub">Your feedback helps us serve you better 🍦</p>
+
+      <div class="stars-container" role="group" aria-label="Star rating — select 1 to 5 stars">
+        <button class="star-btn" data-value="1" aria-label="1 star" id="star-1" type="button"></button>
+        <button class="star-btn" data-value="2" aria-label="2 stars" id="star-2" type="button"></button>
+        <button class="star-btn" data-value="3" aria-label="3 stars" id="star-3" type="button"></button>
+        <button class="star-btn" data-value="4" aria-label="4 stars" id="star-4" type="button"></button>
+        <button class="star-btn" data-value="5" aria-label="5 stars" id="star-5" type="button"></button>
+      </div>
+
+      <p class="star-label" id="star-label" aria-live="polite">Tap a star to rate your experience</p>
+    </header>
+
+    <!-- POSITIVE SECTION (4–5 stars) -->
+    <section class="section-card" id="positive-section" aria-labelledby="positive-heading">
+      <div class="rating-badge positive" id="positive-badge" aria-live="polite"></div>
+      <h2 class="section-title" id="positive-heading">
+        <span class="section-icon" aria-hidden="true">🎉</span>
+        Share Your Experience!
+      </h2>
+      <p class="section-desc">
+        We're so glad you loved it! Pick a template below or write your own — then share it on Google Maps to help other dessert lovers find us.
+      </p>
+
+      <p class="templates-label">Quick templates — click to select</p>
+      <div class="templates-grid" id="templates-grid" role="list"></div>
+
+      <div class="or-divider" aria-hidden="true">or write your own</div>
+
+      <textarea
+        class="review-textarea"
+        id="positive-textarea"
+        placeholder="Share what you loved about your visit…"
+        maxlength="1000"
+        aria-label="Your Google review text"
+        rows="4"
+      ></textarea>
+      <p class="char-counter"><span id="char-count">0</span> / 1000</p>
+
+      <button class="btn btn-primary" id="copy-review-btn" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="9" y="9" width="13" height="13" rx="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        Copy &amp; Open Google Maps
+      </button>
+    </section>
+
+    <!-- NEGATIVE SECTION (1–3 stars) -->
+    <section class="section-card" id="negative-section" aria-labelledby="negative-heading">
+      <div class="rating-badge negative" id="negative-badge" aria-live="polite"></div>
+      <h2 class="section-title" id="negative-heading">
+        <span class="section-icon" aria-hidden="true">🙏</span>
+        We're Sorry to Hear That
+      </h2>
+
+      <div class="apology-box" role="note">
+        <span class="apology-icon" aria-hidden="true">💛</span>
+        <p class="apology-text">
+          We apologize for your experience. Please let the manager know what went wrong so we can make it right immediately.
+        </p>
+      </div>
+
+      <label for="negative-textarea" class="templates-label">Tell us what happened</label>
+      <textarea
+        class="review-textarea"
+        id="negative-textarea"
+        placeholder="Tell us what happened and how we can improve…"
+        maxlength="1000"
+        aria-label="Your feedback to the manager"
+        rows="4"
+      ></textarea>
+      <p class="char-counter"><span id="neg-char-count">0</span> / 1000</p>
+
+      <button class="btn btn-whatsapp" id="whatsapp-btn" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+        </svg>
+        Send Feedback to Manager
+      </button>
+    </section>
+
+    <footer class="app-footer">
+      Powered by Amul Ice Cream &nbsp;&middot;&nbsp; Thank you for your time 🍦
+    </footer>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" role="status" aria-live="polite">
+    <span aria-hidden="true">✅</span>
+    <span id="toast-msg">Review copied!</span>
+  </div>
+
+  <!-- ==========================================
+       A4 PRINT POSTER (only shown when printing)
+       ========================================== -->
+  <div id="print-poster" style="display:none;">
+    <div class="poster-brand">Amul Ice Cream</div>
+    <div class="poster-stars">
+      <span class="poster-star">★</span><span class="poster-star">★</span>
+      <span class="poster-star">★</span><span class="poster-star">★</span>
+      <span class="poster-star">★</span>
     </div>
-
-    <!-- 2. WEB APP -->
-    <div class="app-container">
-        
-        <div class="header">
-            <h2>Amul Ice Cream Parlor</h2>
-            <p>Thank you for visiting! How many stars?</p>
-        </div>
-
-        <div class="stars" id="star-container">
-            <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
-        </div>
-        <p style="color: #666; margin-top: -5px; margin-bottom: 24px; font-size: 14px;">Tap a star to begin</p>
-
-        <!-- 4 OR 5 STARS: GOOGLE REVIEWS ROUTE -->
-        <div id="step2-positive">
-            <div class="template-title">Choose a review or type your own:</div>
-            <div class="template-btns" id="template-container"></div>
-            <textarea id="review-text-positive" placeholder="Your review will appear here..."></textarea>
-            <button class="action-btn" id="submit-btn" onclick="copyAndRedirect()">Copy & Open Google Maps</button>
-            <p class="helper-text">Your review will be copied securely. Just tap <strong>Paste</strong> and select 5 stars on the next screen!</p>
-        </div>
-
-        <!-- 1, 2, OR 3 STARS: WHATSAPP ROUTE -->
-        <div id="step2-negative">
-            <div class="template-title" style="color: var(--amul-red);">We apologize for your experience.</div>
-            <p class="apology-text">Your feedback is very important to us. Please let the manager know what went wrong so we can fix it immediately.</p>
-            <textarea id="review-text-negative" placeholder="Tell us how we can improve..."></textarea>
-            <button class="action-btn whatsapp-btn" onclick="sendToWhatsApp()">Send Feedback to Manager</button>
-            <p class="helper-text">This will open a direct, private WhatsApp chat with the owner.</p>
-        </div>
-        
+    <h1 class="poster-title">Loved Your Visit?<br><span>Leave Us a Review!</span></h1>
+    <p class="poster-subtitle">
+      Scan the QR code below with your phone camera and share your experience in seconds.
+    </p>
+    <!-- Replace .poster-qr-inner with <img src="your-qr.png" /> when ready -->
+    <div class="poster-qr-wrapper">
+      <div class="poster-qr-inner">
+        <span class="poster-qr-placeholder-text">Place Your<br>QR Code Here</span>
+      </div>
     </div>
+    <ol class="poster-scan-steps">
+      <li><span class="step-num">1</span><span>Open your phone camera and point it at the QR code above.</span></li>
+      <li><span class="step-num">2</span><span>Tap the notification that appears to open our review page.</span></li>
+      <li><span class="step-num">3</span><span>Select your star rating and share your honest feedback!</span></li>
+    </ol>
+    <div class="poster-divider"></div>
+    <p class="poster-footer-text">
+      Your review takes less than 60 seconds and means the world to us. 🙏<br>
+      Thank you for visiting <strong>Amul Ice Cream Parlor</strong>!
+    </p>
+  </div>
 
-    <!-- 3. JAVASCRIPT LOGIC -->
-    <script>
-        // --- CONFIGURATION ---
-        const WHATSAPP_NUMBER = "918866390389"; 
-        const GOOGLE_REVIEW_LINK = "https://g.page/r/CdsQyMcOP8uaEBM/review"; // Universal Link for all devices
+  <!-- ==========================================
+       JAVASCRIPT
+       ========================================== -->
+  <script>
+    /* ─────────────────────────────────────────
+       CONFIGURATION
+       ───────────────────────────────────────── */
+    const CONFIG = {
+      googleReviewLink: 'https://g.page/r/CdsQyMcOP8uaEBM/review',
+      whatsappNumber:   '918866390389',
+      brandName:        'Amul Ice Cream',
+    };
 
-        const stars = document.querySelectorAll('.stars span');
-        const step2Positive = document.getElementById('step2-positive');
-        const step2Negative = document.getElementById('step2-negative');
-        const reviewTextPositive = document.getElementById('review-text-positive');
-        const reviewTextNegative = document.getElementById('review-text-negative');
-        const submitBtn = document.getElementById('submit-btn');
-        const templateContainer = document.getElementById('template-container');
+    const STAR_LABELS = [
+      '😤 1 Star — Very Poor',
+      '😕 2 Stars — Poor',
+      '😐 3 Stars — Average',
+      '😊 4 Stars — Good',
+      '🤩 5 Stars — Excellent!'
+    ];
 
-        // --- REVIEW POOL (150 ITEMS) ---
-        const reviewPool = [
-            "The Mava Malai here is absolutely divine.", "I love the rich texture of their Amul ice cream.",
-            "Best Mava Malai in the city, hands down.", "Fresh Amul flavors that never disappoint.",
-            "The Mava Malai melts in your mouth perfectly.", "Authentic Amul taste and premium quality desserts.",
-            "A perfect treat for sweet cravings. The Mava Malai is a must!", "You can really taste the freshness in their ice cream.",
-            "Classic Amul vanilla is my absolute favorite here.", "They use premium ingredients for their Mava Malai.",
-            "An incredible variety of fresh Amul ice creams.", "The Mava Malai portion size is generous and fulfilling.",
-            "Perfect place to enjoy a classic Amul chocolate scoop.", "I highly recommend trying their signature Mava Malai.",
-            "The desserts are always chilled to perfection.", "Their Ice Dish Gola is a refreshing blast of flavors.",
-            "The shaved ice in the Gola is so soft and perfect.", "Best Rajwadi Ice Dish Gola I have ever had!",
-            "The syrups used in the Gola are rich and flavorful.", "Highly recommend the dry fruit Ice Dish Gola.",
-            "The classic Kala Khatta Gola here is amazing.", "A perfect summer treat! The Ice Dish is loaded with toppings.",
-            "They don't skimp on the syrups in their Gola.", "My kids absolutely love the chocolate Ice Dish Gola.",
-            "The Rose flavor Gola is perfectly sweet and refreshing.", "It's rare to find such high-quality Ice Dish Gola.",
-            "The Gola brings back so many childhood memories!", "Perfectly balanced sweetness in every bite of the Ice Dish.",
-            "The mixed fruit Gola is a must-try for everyone.", "I can eat their Ice Dish Gola every single day.",
-            "The presentation is flawless. The sides of the dish are perfectly clean with no messy mava or chocolate drips.",
-            "I love how hygienic they are. Even the edges of the serving plates are spotless.",
-            "Spotless presentation! The ice cream is served so neatly without making the dish look dirty.",
-            "They wipe the sides of the dish perfectly before serving. A visually beautiful dessert!",
-            "Five stars for cleanliness. The presentation is clean, neat, and highly appetizing.",
-            "Very hygienic preparation of street-style Gola.", "The parlor is sparkling clean and smells fresh.",
-            "Clean tables, clean floors, and super clean dishes!", "I am very particular about hygiene, and this place exceeds expectations.",
-            "They serve the Mava Malai so neatly, absolutely no messy edges.", "The staff uses gloves and maintains great hygiene.",
-            "The Ice Dish is arranged beautifully in a perfectly clean bowl.", "Outstanding cleanliness in the preparation area.",
-            "You can eat here without any hygiene concerns.", "The neat presentation makes the food look even more premium.",
-            "Even during a rush, they ensure the serving dish is clean and presentable.",
-            "Great to see an Amul parlor taking cleanliness so seriously.", "The spoons and serving bowls are always thoroughly washed.",
-            "Excellent attention to visual details; the desserts are picture-perfect.", "Hygienic, tasty, and beautifully presented every time.",
-            "The staff is polite, quick, and very welcoming.", "Great ambiance for a family dessert outing.",
-            "The owner is very friendly and suggests great flavors.", "Fast service, even on busy weekend nights.",
-            "A peaceful and bright atmosphere to enjoy ice cream.", "Excellent customer service and a smiling staff.",
-            "Affordable pricing for such high-quality desserts.", "We always bring our guests here after dinner.",
-            "The music and vibe make it a great hangout spot.", "Total value for money. Highly recommended!",
-            "A very well-maintained and organized parlor.", "Quick delivery to the table, and the order is always right.",
-            "The seating is comfortable and family-friendly.", "Great location and very easy to find.",
-            "I always leave this parlor with a smile!", "5 stars! Simply the best Amul parlor.",
-            "Delicious food and great service.", "Highly recommended for dessert lovers.",
-            "Unmatched taste and quality.", "A completely satisfying experience.",
-            "Will definitely visit again very soon!", "Top-notch Ice Dish and Amul products.",
-            "Absolutely loved it. 10/10!", "Best spot for evening cravings.", "Perfection in every scoop!",
-            "અહીંની માવા મલાઈનો સ્વાદ અદ્ભુત છે.", "અમૂલ આઈસ્ક્રીમની ક્વોલિટી હંમેશા બેસ્ટ હોય છે.",
-            "શહેરની સૌથી બેસ્ટ માવા મલાઈ અહીં મળે છે.", "અમૂલના ફ્રેશ ફ્લેવર્સ ખાવાની ખૂબ મજા આવે છે.",
-            "માવા મલાઈ મોંમાં મુકતા જ ઓગળી જાય છે.", "ડેઝર્ટ માટે આ એકદમ પરફેક્ટ જગ્યા છે.",
-            "અમૂલ આઈસ્ક્રીમની તાજગી અહીં સ્પષ્ટ દેખાય છે.", "ક્લાસિક અમૂલ વેનીલા આઈસ્ક્રીમ મારો ફેવરિટ છે.",
-            "તેઓ માવા મલાઈમાં પ્રીમિયમ વસ્તુઓ વાપરે છે.", "અમૂલ આઈસ્ક્રીમની અઢળક વેરાયટી અહીં ઉપલબ્ધ છે.",
-            "માવા મલાઈનું પોર્શન ઘણું સારું અને સંતોષકારક હોય છે.", "અમૂલ ચોકલેટ સ્કોપ ખાવા માટે આ બેસ્ટ જગ્યા છે.",
-            "હું દરેકને અહીંની માવા મલાઈ ટ્રાય કરવા માટે ચોક્કસ કહીશ.", "દરેક ડેઝર્ટ એકદમ પરફેક્ટ ઠંડુ હોય છે.",
-            "અસલ અમૂલનો સ્વાદ અને પ્રીમિયમ ક્વોલિટી.", "અહીંનો આઈસ ડીશ ગોલો ખૂબ જ રિફ્રેશિંગ છે.",
-            "ગોલામાં બરફ એકદમ સોફ્ટ અને સરસ હોય છે.", "મેં ખાધેલો સૌથી બેસ્ટ રજવાડી આઈસ ડીશ ગોલો!",
-            "ગોલામાં વપરાતા સિરપ ખૂબ જ ટેસ્ટી અને સારી ગુણવત્તાના હોય છે.", "ડ્રાયફ્રૂટ આઈસ ડીશ ગોલો ખાસ ટ્રાય કરવા જેવો છે.",
-            "અહીંનો ક્લાસિક કાલા ખટ્ટા ગોલો જબરદસ્ત છે.", "ગરમીમાં આ ડીશ ગોલો એકદમ પરફેક્ટ છે!",
-            "ગોલામાં સિરપ અને ટોપિંગ્સ ખૂબ જ સારી માત્રામાં આપે છે.", "મારા બાળકોને ચોકલેટ આઈસ ડીશ ગોલો ખૂબ ભાવે છે.",
-            "રોઝ ફ્લેવર ગોલો એકદમ સરસ અને મીઠો છે.", "આવો સારી ક્વોલિટીનો આઈસ ડીશ ગોલો ભાગ્યે જ જોવા મળે છે.",
-            "ગોલો ખાઈને બાળપણની યાદો તાજી થઈ ગઈ!", "આઈસ ડીશમાં ગળપણનું પ્રમાણ એકદમ પરફેક્ટ છે.",
-            "મિક્સ ફ્રૂટ ગોલો દરેકને ભાવે તેવો છે.", "હું રોજ અહીંનો આઈસ ડીશ ગોલો ખાઈ શકું છું.",
-            "પ્રેઝન્ટેશન એકદમ સરસ છે. ડીશની કિનારીઓ સાફ હોય છે અને કોઈ ચોકલેટ કે માવો ઢોળાયેલો હોતો નથી.",
-            "મને અહીંની સ્વચ્છતા ખૂબ ગમે છે. ડીશની કિનારીઓ પણ એકદમ સ્વચ્છ હોય છે.",
-            "ડીશને આપતા પહેલા તેને બરાબર સાફ કરવામાં આવે છે, જેથી ડીશ ગંદી ન લાગે.",
-            "તેઓ સ્વચ્છતાનું પૂરું ધ્યાન રાખે છે. પ્રેઝન્ટેશન એકદમ પ્રોફેશનલ છે.",
-            "સ્વચ્છતા માટે પૂરા 5 સ્ટાર. ખાવાનું એકદમ નીટ અને ક્લીન હોય છે.",
-            "ગોલા જેવી સ્ટ્રીટ આઈટમ પણ અહીં ખૂબ જ હાઈજેનિક રીતે બનાવવામાં આવે છે.",
-            "પાર્લર એકદમ સ્વચ્છ છે અને વાતાવરણ પણ સરસ છે.",
-            "ટેબલ, ફ્લોર અને ડીશ બધું જ એકદમ ક્લીન હોય છે.",
-            "હું સ્વચ્છતાનો ખૂબ આગ્રહી છું અને આ જગ્યા મને ખૂબ ગમી.",
-            "માવા મલાઈ એટલી સરસ રીતે પીરસે છે કે ડીશની આજુબાજુ કોઈ ગંદકી નથી હોતી.",
-            "સ્ટાફ સ્વચ્છતાના નિયમોનું કડક પાલન કરે છે.", "આઈસ ડીશ ખૂબ જ સુંદર અને સાફ બાઉલમાં આપવામાં આવે છે.",
-            "પાર્લરમાં કિચન અને બનાવવાની જગ્યા એકદમ ચોખ્ખી છે.", "તમે કોઈપણ ચિંતા વગર અહીં ખાઈ શકો છો.",
-            "ચોખ્ખું પ્રેઝન્ટેશન ડેઝર્ટનો સ્વાદ બમણો કરી દે છે.", "ભીડ હોય તો પણ ડીશની સ્વચ્છતામાં કોઈ બાંધછોડ નથી હોતી.",
-            "અમૂલ પાર્લર આટલું ચોખ્ખું જોઈને ખૂબ આનંદ થયો.", "વાસણો અને ચમચીઓ એકદમ સાફ હોય છે.",
-            "ફોટોગ્રાફી માટે પરફેક્ટ દેખાય તેવી સુંદર અને સાફ ડીશ પીરસે છે.", "હાઈજેનિક, સ્વાદિષ્ટ અને સુંદર પ્રેઝન્ટેશન!",
-            "સ્ટાફ ખૂબ જ નમ્ર અને ઝડપી છે.", "ફેમિલી સાથે ડેઝર્ટ ખાવા માટે બેસ્ટ જગ્યા.",
-            "માલિકનો સ્વભાવ સારો છે અને સારા ફ્લેવર સજેસ્ટ કરે છે.", "ખૂબ જ ફાસ્ટ સર્વિસ છે.",
-            "શાંત અને ખુશનુમા વાતાવરણ.", "ઉત્તમ કસ્ટમર સર્વિસ અને હસમુખો સ્ટાફ.",
-            "સારી ગુણવત્તા પ્રમાણે કિંમત એકદમ વ્યાજબી છે.", "અમે જમ્યા પછી હંમેશા અમારા મહેમાનોને અહીં લાવીએ છીએ.",
-            "પાર્લરનું મ્યુઝિક અને વાતાવરણ ખૂબ મસ્ત છે.", "પૈસા વસૂલ જગ્યા! 100% રેકોમેન્ડેડ.",
-            "ખૂબ જ સારી રીતે મેનેજ કરેલું પાર્લર.", "ઓર્ડર એકદમ ઝડપથી અને સાચો જ મળે છે.",
-            "બેસવાની વ્યવસ્થા ખૂબ સારી છે.", "લોકેશન સરસ છે અને સરળતાથી મળી જાય છે.",
-            "અહીંથી હંમેશા ખુશ થઈને જ પાછા ફરીએ છીએ!", "5 સ્ટાર! અમૂલ માટે બેસ્ટ પાર્લર.",
-            "સ્વાદિષ્ટ ડેઝર્ટ અને ઉત્તમ સર્વિસ.", "મીઠાઈના શોખીનો માટે શ્રેષ્ઠ જગ્યા.",
-            "સ્વાદ અને ક્વોલિટીમાં કોઈ જ તોડ નથી.", "એકદમ સંતોષકારક અનુભવ.",
-            "હું ચોક્કસ ફરીથી જલ્દી આવીશ!", "બેસ્ટ આઈસ ડીશ અને અમૂલ પ્રોડક્ટ્સ.",
-            "મને આ જગ્યા ખૂબ જ ગમી. 10/10!", "સાંજના સમયે કંઈક મીઠું ખાવા માટે બેસ્ટ સ્પોટ.",
-            "દરેક ચમચીમાં પરફેક્ટ સ્વાદ!"
-        ];
+    /* Full review pool — 150+ English + Gujarati reviews */
+    const REVIEW_POOL = [
+      "The Mava Malai here is absolutely divine.",
+      "I love the rich texture of their Amul ice cream.",
+      "Best Mava Malai in the city, hands down.",
+      "Fresh Amul flavors that never disappoint.",
+      "The Mava Malai melts in your mouth perfectly.",
+      "Authentic Amul taste and premium quality desserts.",
+      "A perfect treat for sweet cravings. The Mava Malai is a must!",
+      "You can really taste the freshness in their ice cream.",
+      "Classic Amul vanilla is my absolute favorite here.",
+      "They use premium ingredients for their Mava Malai.",
+      "An incredible variety of fresh Amul ice creams.",
+      "The Mava Malai portion size is generous and fulfilling.",
+      "Perfect place to enjoy a classic Amul chocolate scoop.",
+      "I highly recommend trying their signature Mava Malai.",
+      "The desserts are always chilled to perfection.",
+      "Their Ice Dish Gola is a refreshing blast of flavors.",
+      "The shaved ice in the Gola is so soft and perfect.",
+      "Best Rajwadi Ice Dish Gola I have ever had!",
+      "The syrups used in the Gola are rich and flavorful.",
+      "Highly recommend the dry fruit Ice Dish Gola.",
+      "The classic Kala Khatta Gola here is amazing.",
+      "A perfect summer treat! The Ice Dish is loaded with toppings.",
+      "They don't skimp on the syrups in their Gola.",
+      "My kids absolutely love the chocolate Ice Dish Gola.",
+      "The Rose flavor Gola is perfectly sweet and refreshing.",
+      "It's rare to find such high-quality Ice Dish Gola.",
+      "The Gola brings back so many childhood memories!",
+      "Perfectly balanced sweetness in every bite of the Ice Dish.",
+      "The mixed fruit Gola is a must-try for everyone.",
+      "I can eat their Ice Dish Gola every single day.",
+      "The presentation is flawless. The sides of the dish are perfectly clean with no messy mava or chocolate drips.",
+      "I love how hygienic they are. Even the edges of the serving plates are spotless.",
+      "Spotless presentation! The ice cream is served so neatly without making the dish look dirty.",
+      "They wipe the sides of the dish perfectly before serving. A visually beautiful dessert!",
+      "Five stars for cleanliness. The presentation is clean, neat, and highly appetizing.",
+      "Very hygienic preparation of street-style Gola.",
+      "The parlor is sparkling clean and smells fresh.",
+      "Clean tables, clean floors, and super clean dishes!",
+      "I am very particular about hygiene, and this place exceeds expectations.",
+      "They serve the Mava Malai so neatly, absolutely no messy edges.",
+      "The staff uses gloves and maintains great hygiene.",
+      "The Ice Dish is arranged beautifully in a perfectly clean bowl.",
+      "Outstanding cleanliness in the preparation area.",
+      "You can eat here without any hygiene concerns.",
+      "The neat presentation makes the food look even more premium.",
+      "Even during a rush, they ensure the serving dish is clean and presentable.",
+      "Great to see an Amul parlor taking cleanliness so seriously.",
+      "The spoons and serving bowls are always thoroughly washed.",
+      "Excellent attention to visual details; the desserts are picture-perfect.",
+      "Hygienic, tasty, and beautifully presented every time.",
+      "The staff is polite, quick, and very welcoming.",
+      "Great ambiance for a family dessert outing.",
+      "The owner is very friendly and suggests great flavors.",
+      "Fast service, even on busy weekend nights.",
+      "A peaceful and bright atmosphere to enjoy ice cream.",
+      "Excellent customer service and a smiling staff.",
+      "Affordable pricing for such high-quality desserts.",
+      "We always bring our guests here after dinner.",
+      "The music and vibe make it a great hangout spot.",
+      "Total value for money. Highly recommended!",
+      "A very well-maintained and organized parlor.",
+      "Quick delivery to the table, and the order is always right.",
+      "The seating is comfortable and family-friendly.",
+      "Great location and very easy to find.",
+      "I always leave this parlor with a smile!",
+      "5 stars! Simply the best Amul parlor.",
+      "Delicious food and great service.",
+      "Highly recommended for dessert lovers.",
+      "Unmatched taste and quality.",
+      "A completely satisfying experience.",
+      "Will definitely visit again very soon!",
+      "Top-notch Ice Dish and Amul products.",
+      "Absolutely loved it. 10/10!",
+      "Best spot for evening cravings.",
+      "Perfection in every scoop!",
+      "અહીંની માવા મલાઈનો સ્વાદ અદ્ભુત છે.",
+      "અમૂલ આઈસ્ક્રીમની ક્વોલિટી હંમેશા બેસ્ટ હોય છે.",
+      "શહેરની સૌથી બેસ્ટ માવા મલાઈ અહીં મળે છે.",
+      "અમૂલના ફ્રેશ ફ્લેવર્સ ખાવાની ખૂબ મજા આવે છે.",
+      "માવા મલાઈ મોંમાં મુકતા જ ઓગળી જાય છે.",
+      "ડેઝર્ટ માટે આ એકદમ પરફેક્ટ જગ્યા છે.",
+      "અમૂલ આઈસ્ક્રીમની તાજગી અહીં સ્પષ્ટ દેખાય છે.",
+      "ક્લાસિક અમૂલ વેનીલા આઈસ્ક્રીમ મારો ફેવરિટ છે.",
+      "તેઓ માવા મલાઈમાં પ્રીમિયમ વસ્તુઓ વાપરે છે.",
+      "અમૂલ આઈસ્ક્રીમની અઢળક વેરાયટી અહીં ઉપલબ્ધ છે.",
+      "માવા મલાઈનું પોર્શન ઘણું સારું અને સંતોષકારક હોય છે.",
+      "અમૂલ ચોકલેટ સ્કોપ ખાવા માટે આ બેસ્ટ જગ્યા છે.",
+      "હું દરેકને અહીંની માવા મલાઈ ટ્રાય કરવા માટે ચોક્કસ કહીશ.",
+      "દરેક ડેઝર્ટ એકદમ પરફેક્ટ ઠંડુ હોય છે.",
+      "અસલ અમૂલનો સ્વાદ અને પ્રીમિયમ ક્વોલિટી.",
+      "અહીંનો આઈસ ડીશ ગોલો ખૂબ જ રિફ્રેશિંગ છે.",
+      "ગોલામાં બરફ એકદમ સોફ્ટ અને સરસ હોય છે.",
+      "મેં ખાધેલો સૌથી બેસ્ટ રજવાડી આઈસ ડીશ ગોલો!",
+      "ગોલામાં વપરાતા સિરપ ખૂબ જ ટેસ્ટી અને સારી ગુણવત્તાના હોય છે.",
+      "ડ્રાયફ્રૂટ આઈસ ડીશ ગોલો ખાસ ટ્રાય કરવા જેવો છે.",
+      "અહીંનો ક્લાસિક કાલા ખટ્ટા ગોલો જબરદસ્ત છે.",
+      "ગરમીમાં આ ડીશ ગોલો એકદમ પરફેક્ટ છે!",
+      "ગોલામાં સિરપ અને ટોપિંગ્સ ખૂબ જ સારી માત્રામાં આપે છે.",
+      "મારા બાળકોને ચોકલેટ આઈસ ડીશ ગોલો ખૂબ ભાવે છે.",
+      "રોઝ ફ્લેવર ગોલો એકદમ સરસ અને મીઠો છે.",
+      "આવો સારી ક્વોલિટીનો આઈસ ડીશ ગોલો ભાગ્યે જ જોવા મળે છે.",
+      "ગોલો ખાઈને બાળપણની યાદો તાજી થઈ ગઈ!",
+      "આઈસ ડીશમાં ગળપણનું પ્રમાણ એકદમ પરફેક્ટ છે.",
+      "મિક્સ ફ્રૂટ ગોલો દરેકને ભાવે તેવો છે.",
+      "હું રોજ અહીંનો આઈસ ડીશ ગોલો ખાઈ શકું છું.",
+      "પ્રેઝન્ટેશન એકદમ સરસ છે. ડીશની કિનારીઓ સાફ હોય છે અને કોઈ ચોકલેટ કે માવો ઢોળાયેલો હોતો નથી.",
+      "મને અહીંની સ્વચ્છતા ખૂબ ગમે છે. ડીશની કિનારીઓ પણ એકદમ સ્વચ્છ હોય છે.",
+      "ડીશને આપતા પહેલા તેને બરાબર સાફ કરવામાં આવે છે, જેથી ડીશ ગંદી ન લાગે.",
+      "તેઓ સ્વચ્છતાનું પૂરું ધ્યાન રાખે છે. પ્રેઝન્ટેશન એકદમ પ્રોફેશનલ છે.",
+      "સ્વચ્છતા માટે પૂરા 5 સ્ટાર. ખાવાનું એકદમ નીટ અને ક્લીન હોય છે.",
+      "ગોલા જેવી સ્ટ્રીટ આઈટમ પણ અહીં ખૂબ જ હાઈજેનિક રીતે બનાવવામાં આવે છે.",
+      "પાર્લર એકદમ સ્વચ્છ છે અને વાતાવરણ પણ સરસ છે.",
+      "ટેબલ, ફ્લોર અને ડીશ બધું જ એકદમ ક્લીન હોય છે.",
+      "હું સ્વચ્છતાનો ખૂબ આગ્રહી છું અને આ જગ્યા મને ખૂબ ગમી.",
+      "માવા મલાઈ એટલી સરસ રીતે પીરસે છે કે ડીશની આજુબાજુ કોઈ ગંદકી નથી હોતી.",
+      "સ્ટાફ સ્વચ્છતાના નિયમોનું કડક પાલન કરે છે.",
+      "આઈસ ડીશ ખૂબ જ સુંદર અને સાફ બાઉલમાં આપવામાં આવે છે.",
+      "પાર્લરમાં કિચન અને બનાવવાની જગ્યા એકદમ ચોખ્ખી છે.",
+      "તમે કોઈપણ ચિંતા વગર અહીં ખાઈ શકો છો.",
+      "ચોખ્ખું પ્રેઝન્ટેશન ડેઝર્ટનો સ્વાદ બમણો કરી દે છે.",
+      "ભીડ હોય તો પણ ડીશની સ્વચ્છતામાં કોઈ બાંધછોડ નથી હોતી.",
+      "અમૂલ પાર્લર આટલું ચોખ્ખું જોઈને ખૂબ આનંદ થયો.",
+      "વાસણો અને ચમચીઓ એકદમ સાફ હોય છે.",
+      "ફોટોગ્રાફી માટે પરફેક્ટ દેખાય તેવી સુંદર અને સાફ ડીશ પીરસે છે.",
+      "હાઈજેનિક, સ્વાદિષ્ટ અને સુંદર પ્રેઝન્ટેશન!",
+      "સ્ટાફ ખૂબ જ નમ્ર અને ઝડપી છે.",
+      "ફેમિલી સાથે ડેઝર્ટ ખાવા માટે બેસ્ટ જગ્યા.",
+      "માલિકનો સ્વભાવ સારો છે અને સારા ફ્લેવર સજેસ્ટ કરે છે.",
+      "ખૂબ જ ફાસ્ટ સર્વિસ છે.",
+      "શાંત અને ખુશનુમા વાતાવરણ.",
+      "ઉત્તમ કસ્ટમર સર્વિસ અને હસમુખો સ્ટાફ.",
+      "સારી ગુણવત્તા પ્રમાણે કિંમત એકદમ વ્યાજબી છે.",
+      "અમે જમ્યા પછી હંમેશા અમારા મહેમાનોને અહીં લાવીએ છીએ.",
+      "પાર્લરનું મ્યુઝિક અને વાતાવરણ ખૂબ મસ્ત છે.",
+      "પૈસા વસૂલ જગ્યા! 100% રેકોમેન્ડેડ.",
+      "ખૂબ જ સારી રીતે મેનેજ કરેલું પાર્લર.",
+      "ઓર્ડર એકદમ ઝડપથી અને સાચો જ મળે છે.",
+      "બેસવાની વ્યવસ્થા ખૂબ સારી છે.",
+      "લોકેશન સરસ છે અને સરળતાથી મળી જાય છે.",
+      "અહીંથી હંમેશા ખુશ થઈને જ પાછા ફરીએ છીએ!",
+      "5 સ્ટાર! અમૂલ માટે બેસ્ટ પાર્લર.",
+      "સ્વાદિષ્ટ ડેઝર્ટ અને ઉત્તમ સર્વિસ.",
+      "મીઠાઈના શોખીનો માટે શ્રેષ્ઠ જગ્યા.",
+      "સ્વાદ અને ક્વોલિટીમાં કોઈ જ તોડ નથી.",
+      "એકદમ સંતોષકારક અનુભવ.",
+      "હું ચોક્કસ ફરીથી જલ્દી આવીશ!",
+      "બેસ્ટ આઈસ ડીશ અને અમૂલ પ્રોડક્ટ્સ.",
+      "મને આ જગ્યા ખૂબ જ ગમી. 10/10!",
+      "સાંજના સમયે કંઈક મીઠું ખાવા માટે બેસ્ટ સ્પોટ.",
+      "દરેક ચમચીમાં પરફેક્ટ સ્વાદ!"
+    ];
 
-        // --- RANDOM TEMPLATES ---
-        function loadRandomTemplates() {
-            templateContainer.innerHTML = ''; 
-            const shuffled = [...reviewPool].sort(() => 0.5 - Math.random());
-            const selectedReviews = shuffled.slice(0, 4);
+    /* ─────────────────────────────────────────
+       STATE
+       ───────────────────────────────────────── */
+    let currentRating = 0;
 
-            selectedReviews.forEach(text => {
-                const btn = document.createElement('button');
-                btn.className = 'btn-tmpl';
-                btn.innerText = text;
-                
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.btn-tmpl').forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    reviewTextPositive.value = btn.innerText;
-                });
-                templateContainer.appendChild(btn);
-            });
-        }
+    /* ─────────────────────────────────────────
+       SVG HELPERS
+       ───────────────────────────────────────── */
+    function starSVG(filled) {
+      const fill   = filled ? 'var(--color-star)' : 'rgba(255,255,255,0.2)';
+      const stroke = filled ? 'var(--color-star)' : 'rgba(255,255,255,0.45)';
+      const sw     = filled ? '1' : '1.5';
+      return `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="24,4 29.5,18 44,18 32.5,27.5 37,41 24,32 11,41 15.5,27.5 4,18 18.5,18"
+          fill="${fill}" stroke="${stroke}" stroke-width="${sw}" stroke-linejoin="round"/>
+      </svg>`;
+    }
+
+    /* ─────────────────────────────────────────
+       RENDER STARS
+       ───────────────────────────────────────── */
+    const starBtns   = document.querySelectorAll('.star-btn');
+    const starLabel  = document.getElementById('star-label');
+
+    function renderStars(fillUpTo) {
+      starBtns.forEach((btn, i) => {
+        const val    = i + 1;
+        const filled = val <= fillUpTo;
+        btn.innerHTML = starSVG(filled);
+        btn.classList.toggle('active', filled);
+      });
+    }
+
+    /* ─────────────────────────────────────────
+       STAR EVENTS
+       ───────────────────────────────────────── */
+    starBtns.forEach((btn, idx) => {
+      const val = idx + 1;
+
+      btn.addEventListener('mouseenter', () => {
+        renderStars(val);
+        starLabel.textContent = STAR_LABELS[val - 1];
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        renderStars(currentRating);
+        starLabel.textContent = currentRating
+          ? STAR_LABELS[currentRating - 1]
+          : 'Tap a star to rate your experience';
+      });
+
+      btn.addEventListener('click', () => {
+        currentRating = val;
+        renderStars(val);
+        starLabel.textContent = STAR_LABELS[val - 1];
+        // Animate the clicked star
+        btn.classList.remove('pop');
+        void btn.offsetWidth; // reflow
+        btn.classList.add('pop');
+        handleRouting(val);
+      });
+    });
+
+    /* ─────────────────────────────────────────
+       ROUTING
+       ───────────────────────────────────────── */
+    const positiveSection = document.getElementById('positive-section');
+    const negativeSection = document.getElementById('negative-section');
+    const positiveBadge   = document.getElementById('positive-badge');
+    const negativeBadge   = document.getElementById('negative-badge');
+
+    function handleRouting(rating) {
+      [positiveSection, negativeSection].forEach(s => s.classList.remove('visible', 'animated'));
+
+      const stars = '⭐'.repeat(rating);
+
+      if (rating >= 4) {
+        positiveBadge.textContent = `${stars} You rated us ${rating} Star${rating > 1 ? 's' : ''}!`;
+        positiveBadge.className = 'rating-badge positive';
         loadRandomTemplates();
+        revealSection(positiveSection);
+      } else {
+        negativeBadge.textContent = `${stars} You rated us ${rating} Star${rating > 1 ? 's' : ''}`;
+        negativeBadge.className = 'rating-badge negative';
+        revealSection(negativeSection);
+      }
+    }
 
-        // --- STAR RATING & REVIEW GATE LOGIC ---
-        stars.forEach(star => {
-            star.addEventListener('click', () => {
-                let value = parseInt(star.getAttribute('data-value'));
-                
-                stars.forEach(s => s.classList.remove('active'));
-                for(let i=0; i<value; i++) {
-                    stars[i].classList.add('active');
-                }
-                
-                if (value >= 4) {
-                    step2Positive.style.display = 'block';
-                    step2Negative.style.display = 'none';
-                    if(value === 5 && reviewTextPositive.value === "") {
-                        reviewTextPositive.value = "Great experience at this Amul parlor!";
-                    }
-                } else {
-                    step2Positive.style.display = 'none';
-                    step2Negative.style.display = 'block';
-                }
-            });
+    function revealSection(section) {
+      setTimeout(() => {
+        section.classList.add('visible');
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          section.classList.add('animated');
+          section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }));
+      }, 80);
+    }
+
+    /* ─────────────────────────────────────────
+       RANDOM TEMPLATES
+       ───────────────────────────────────────── */
+    const templatesGrid    = document.getElementById('templates-grid');
+    const positiveTextarea = document.getElementById('positive-textarea');
+    const charCount        = document.getElementById('char-count');
+
+    function loadRandomTemplates() {
+      templatesGrid.innerHTML = '';
+      const shuffled = [...REVIEW_POOL].sort(() => Math.random() - 0.5).slice(0, 4);
+
+      shuffled.forEach(text => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'template-chip';
+        chip.setAttribute('role', 'listitem');
+        chip.textContent = text;
+        chip.setAttribute('aria-label', `Select: ${text}`);
+
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('.template-chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+          positiveTextarea.value = text;
+          charCount.textContent  = text.length;
+          positiveTextarea.focus();
         });
 
-        // --- GOOGLE MAPS REDIRECT (FINAL FIX) ---
-        function copyAndRedirect() {
-            const textToCopy = reviewTextPositive.value.trim();
-            if (!textToCopy) {
-                alert("Please select or type a review first.");
-                return;
-            }
+        templatesGrid.appendChild(chip);
+      });
 
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                submitBtn.innerText = "✓ Copied! Opening Google Maps...";
-                submitBtn.style.backgroundColor = "#28a745"; 
-                
-                setTimeout(() => { 
-                    // બ્રાઉઝરની સુરક્ષાને બાયપાસ કરવા અને Android ને એપ ઓપન કરવા દેવા માટે,
-                    // આપણે _blank ટાર્ગેટ સાથે <a> ટેગ પર ક્લિક કરાવીએ છીએ.
-                    const link = document.createElement('a');
-                    link.href = GOOGLE_REVIEW_LINK;
-                    link.target = '_blank'; 
-                    document.body.appendChild(link);
-                    link.click();
-                }, 600);
-                
-            }).catch(() => {
-                window.location.href = GOOGLE_REVIEW_LINK;
-            });
-        }
+      positiveTextarea.value = '';
+      charCount.textContent  = '0';
+    }
 
-        // --- WHATSAPP REDIRECT ---
-        function sendToWhatsApp() {
-            const feedbackText = reviewTextNegative.value.trim();
-            let message = "Hi Manager, I just visited the parlor and had a concern: ";
-            if (feedbackText) {
-                message += feedbackText;
-            } else {
-                message += "My experience wasn't great and I wanted to let you know.";
-            }
-            
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-            window.location.href = whatsappUrl;
-        }
-    </script>
+    /* ─────────────────────────────────────────
+       CHAR COUNTERS
+       ───────────────────────────────────────── */
+    const negativeTextarea = document.getElementById('negative-textarea');
+    const negCharCount     = document.getElementById('neg-char-count');
+
+    positiveTextarea.addEventListener('input', () => {
+      charCount.textContent = positiveTextarea.value.length;
+      document.querySelectorAll('.template-chip').forEach(c => c.classList.remove('selected'));
+    });
+
+    negativeTextarea.addEventListener('input', () => {
+      negCharCount.textContent = negativeTextarea.value.length;
+    });
+
+    /* ─────────────────────────────────────────
+       TOAST
+       ───────────────────────────────────────── */
+    const toast    = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-msg');
+    let   toastTid = null;
+
+    function showToast(msg, duration = 3200) {
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTid);
+      toastTid = setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
+    /* ─────────────────────────────────────────
+       SAFE REDIRECT (bypasses popup blockers)
+       ───────────────────────────────────────── */
+    function safeRedirect(url, delay = 400) {
+      setTimeout(() => {
+        const a = document.createElement('a');
+        a.href   = url;
+        a.target = '_blank';
+        a.rel    = 'noopener noreferrer';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }, delay);
+    }
+
+    /* ─────────────────────────────────────────
+       COPY + GOOGLE MAPS (Positive Route)
+       ───────────────────────────────────────── */
+    document.getElementById('copy-review-btn').addEventListener('click', async () => {
+      const text = positiveTextarea.value.trim();
+
+      if (!text) {
+        showToast('✏️ Please write or select a review first!', 2500);
+        positiveTextarea.focus();
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        /* Fallback for older browsers / non-HTTPS */
+        const ta = Object.assign(document.createElement('textarea'), {
+          value: text,
+          style: 'position:fixed;top:-9999px;left:-9999px;opacity:0'
+        });
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch { /* silent */ }
+        document.body.removeChild(ta);
+      }
+
+      showToast('✅ Review copied! Opening Google Maps…', 3000);
+      safeRedirect(CONFIG.googleReviewLink, 500);
+    });
+
+    /* ─────────────────────────────────────────
+       WHATSAPP (Negative Route)
+       ───────────────────────────────────────── */
+    document.getElementById('whatsapp-btn').addEventListener('click', () => {
+      const feedback = negativeTextarea.value.trim();
+      let message = `Hello, I visited your ${CONFIG.brandName} parlor and rated it ${currentRating} star${currentRating !== 1 ? 's' : ''}.`;
+      if (feedback) {
+        message += `\n\nMy feedback:\n"${feedback}"`;
+      } else {
+        message += '\n\nI would like to share some concerns about my visit.';
+      }
+      const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+      safeRedirect(url, 100);
+    });
+
+    /* ─────────────────────────────────────────
+       INIT
+       ───────────────────────────────────────── */
+    renderStars(0);
+  </script>
 </body>
 </html>
