@@ -349,13 +349,18 @@
         ];
 
         // --- NATIVE APP DETECTION URL ---
-        function getNativeAppUrl() {
+       function getNativeAppUrl() {
             const isAndroid = /android/i.test(navigator.userAgent || navigator.vendor || window.opera);
+            
+            // તમારી જે શોર્ટ લિંક છે (દા.ત. https://g.page/r/CdsQyMcOP8uaEBM/review)
+            // તેમાંથી 'https://' કાઢીને તેને સીધી Android Intent માં પાસ કરીએ છીએ.
+            
             if (isAndroid) {
-                // આમાં S.browser_fallback_url એડ કર્યું છે, જેથી એરર ન આવે
-                const fallback = encodeURIComponent(`https://search.google.com/local/writereview?placeid=${PLACE_ID}`);
-                return `intent://search.google.com/local/writereview?placeid=${PLACE_ID}#Intent;package=com.google.android.apps.maps;scheme=https;S.browser_fallback_url=${fallback};end;`;
+                // આ સીધો કમાન્ડ આપશે: "ગૂગલ મેપ્સ એપ ઓપન કરો અને આ g.page લિંક લોડ કરો"
+                const intentUrl = IOS_REVIEW_LINK.replace("https://", "");
+                return `intent://${intentUrl}#Intent;package=com.google.android.apps.maps;scheme=https;end;`;
             } else {
+                // iPhone અને Desktop માટે સીધી લિંક
                 return IOS_REVIEW_LINK;
             }
         }
