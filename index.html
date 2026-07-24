@@ -11,6 +11,7 @@
             --amul-light-blue: #eef5ff;
             --amul-red: #e21b22; 
             --star-gold: #ffc107;
+            --whatsapp-green: #25D366;
         }
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
@@ -20,19 +21,51 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- MOBILE WEB APP VIEW --- */
+        /* --- MOBILE & DESKTOP WEB APP VIEW --- */
         @media screen {
             .poster-view { display: none; }
             .app-container { 
-                max-width: 480px; 
-                margin: 0 auto; 
+                max-width: 900px; 
+                margin: 40px auto; 
                 background: white; 
-                min-height: 100vh; 
+                min-height: auto; 
                 padding: 24px; 
+                border-radius: 16px;
                 box-sizing: border-box; 
-                text-align: center; 
-                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                display: flex; 
+                gap: 30px;
+                align-items: flex-start;
             }
+
+            .left-column {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            .left-column img {
+                width: 100%;
+                border-radius: 12px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                object-fit: cover;
+            }
+
+            .right-column {
+                flex: 1;
+                text-align: center;
+                width: 100%;
+            }
+
+            @media (max-width: 768px) {
+                .app-container {
+                    flex-direction: column;
+                    margin: 0;
+                    border-radius: 0;
+                    min-height: 100vh;
+                }
+            }
+
             .header { 
                 background: var(--amul-blue); 
                 color: white; 
@@ -40,16 +73,26 @@
                 border-radius: 12px; 
                 margin-bottom: 24px; 
             }
+            
+            .parlor-img {
+                width: 110px;
+                height: 110px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid white;
+                margin-bottom: 15px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            }
+
             .header h2 { margin: 0 0 8px 0; font-size: 24px; }
             .header p { margin: 0; font-size: 15px; opacity: 0.9; }
             
-            /* Interactive Stars */
             .stars { font-size: 48px; color: #e0e0e0; cursor: pointer; margin: 10px 0; letter-spacing: 5px; }
             .stars span { transition: color 0.2s ease; }
             .stars span.active { color: var(--star-gold); }
             
-            /* Review Templates */
-            #step2 { display: none; animation: fadeIn 0.5s ease; }
+            /* UI States */
+            #step2-positive, #step2-negative { display: none; animation: fadeIn 0.5s ease; }
             @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
             
             .template-title { color: var(--amul-blue); text-align: left; font-size: 16px; margin-bottom: 12px; font-weight: 600; }
@@ -72,8 +115,7 @@
                 border-color: var(--amul-blue);
             }
             
-            /* Textbox & Submit */
-            #review-text { 
+            textarea { 
                 width: 100%; 
                 height: 80px; 
                 padding: 12px; 
@@ -85,7 +127,7 @@
                 box-sizing: border-box; 
                 resize: none; 
             }
-            #review-text:focus { outline: 2px solid var(--amul-blue); border-color: transparent; }
+            textarea:focus { outline: 2px solid var(--amul-blue); border-color: transparent; }
             
             .action-btn { 
                 background: var(--amul-red); 
@@ -101,7 +143,15 @@
                 transition: background 0.2s ease;
             }
             .action-btn:active { background: #b8151b; }
+
+            .whatsapp-btn {
+                background: var(--whatsapp-green);
+                box-shadow: 0 4px 6px rgba(37, 211, 102, 0.2);
+            }
+            .whatsapp-btn:active { background: #1da851; }
+
             .helper-text { font-size: 13px; color: #666; margin-top: 12px; line-height: 1.4; }
+            .apology-text { font-size: 15px; color: #555; margin-bottom: 15px; text-align: left; }
         }
 
         /* --- A4 PRINT POSTER VIEW --- */
@@ -122,8 +172,6 @@
             }
             .poster-view h1 { font-size: 72px; margin: 0 0 20px 0; font-weight: 900; letter-spacing: 2px; }
             .poster-view h2 { font-size: 45px; margin: 0 0 50px 0; color: var(--star-gold); }
-            
-            /* This white box is where you stick/print your actual QR code */
             .qr-box { 
                 width: 350px; 
                 height: 350px; 
@@ -146,273 +194,218 @@
 </head>
 <body>
 
-    <!-- ========================================== -->
-    <!-- 1. PRINT POSTER (Only visible when printing)-->
-    <!-- ========================================== -->
+    <!-- 1. PRINT POSTER -->
     <div class="poster-view">
         <h1>Amul Ice Cream</h1>
         <h2>Scan to Rate Us! ★★★★★</h2>
-        <div class="qr-box">
-            [ ADD YOUR QR CODE HERE ]
-        </div>
+        <div class="qr-box">[ ADD YOUR QR CODE HERE ]</div>
         <p>Scan with your phone camera<br>to share your experience.</p>
         <p class="footer-text">It takes less than 30 seconds!</p>
     </div>
 
-    <!-- ========================================== -->
-    <!-- 2. MOBILE WEB APP (Visible on phones)      -->
-    <!-- ========================================== -->
+    <!-- 2. WEB APP -->
     <div class="app-container">
-        <div class="header">
-            <h2>Amul Ice Cream Parlor</h2>
-            <p>Thank you for visiting! How many stars?</p>
+        
+        <!-- Left Side: Photos -->
+        <div class="left-column">
+            <img src="photo1.jpg" alt="Amul Ice Cream Parlor" onerror="this.style.display='none'">
+            <img src="photo2.jpg" alt="Mava Malai Dessert" onerror="this.style.display='none'">
+            <img src="photo3.jpg" alt="Ice Dish Gola" onerror="this.style.display='none'">
         </div>
 
-        <div class="stars" id="star-container">
-            <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
-        </div>
-        <p style="color: #666; margin-top: -5px; margin-bottom: 24px; font-size: 14px;">Tap a star to begin</p>
-
-        <div id="step2">
-            <div class="template-title">Choose a review or type your own:</div>
-            
-            <div class="template-btns" id="template-container">
-                <!-- Buttons will be dynamically injected here by JavaScript -->
+        <!-- Right Side: Interaction -->
+        <div class="right-column">
+            <div class="header">
+                <img src="parlor.jpg" alt="Our Amul Parlor" class="parlor-img" onerror="this.style.display='none'">
+                <h2>Amul Ice Cream Parlor</h2>
+                <p>Thank you for visiting! How many stars?</p>
             </div>
 
-            <textarea id="review-text" placeholder="Your review will appear here..."></textarea>
+            <div class="stars" id="star-container">
+                <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
+            </div>
+            <p style="color: #666; margin-top: -5px; margin-bottom: 24px; font-size: 14px;">Tap a star to begin</p>
 
-            <button class="action-btn" id="submit-btn" onclick="copyAndRedirect()">Copy & Open Google Maps</button>
-            <p class="helper-text">Your review will be copied securely. Just tap <strong>Paste</strong> and select 5 stars on the next screen!</p>
+            <!-- 4 OR 5 STARS: GOOGLE REVIEWS ROUTE -->
+            <div id="step2-positive">
+                <div class="template-title">Choose a review or type your own:</div>
+                <div class="template-btns" id="template-container"></div>
+                <textarea id="review-text-positive" placeholder="Your review will appear here..."></textarea>
+                <button class="action-btn" id="submit-btn" onclick="copyAndRedirect()">Copy & Open Google Maps</button>
+                <p class="helper-text">Your review will be copied securely. Just tap <strong>Paste</strong> and select 5 stars on the next screen!</p>
+            </div>
+
+            <!-- 1, 2, OR 3 STARS: WHATSAPP ROUTE -->
+            <div id="step2-negative">
+                <div class="template-title" style="color: var(--amul-red);">We apologize for your experience.</div>
+                <p class="apology-text">Your feedback is very important to us. Please let the manager know what went wrong so we can fix it immediately.</p>
+                <textarea id="review-text-negative" placeholder="Tell us how we can improve..."></textarea>
+                <button class="action-btn whatsapp-btn" onclick="sendToWhatsApp()">Send Feedback to Manager</button>
+                <p class="helper-text">This will open a direct, private WhatsApp chat with the owner.</p>
+            </div>
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- 3. JAVASCRIPT LOGIC                        -->
-    <!-- ========================================== -->
+    <!-- 3. JAVASCRIPT LOGIC -->
     <script>
-        // Updated with your specific Google Review Link
-        const GOOGLE_REVIEW_LINK = "https://search.google.com/local/writereview?placeid=ChIJsx-pzRpP4DsR2xDIxw4_y5o";
+        // --- CONFIGURATION ---
+        const WHATSAPP_NUMBER = "918866390389"; 
+        const PLACE_ID = "YOUR_PLACE_ID_HERE"; // Add Place ID for Android
+        const IOS_REVIEW_LINK = "https://g.page/r/CdsQyMcOP8uaEBM/review"; // Your specific Google link
 
         const stars = document.querySelectorAll('.stars span');
-        const step2 = document.getElementById('step2');
-        const reviewText = document.getElementById('review-text');
+        const step2Positive = document.getElementById('step2-positive');
+        const step2Negative = document.getElementById('step2-negative');
+        const reviewTextPositive = document.getElementById('review-text-positive');
+        const reviewTextNegative = document.getElementById('review-text-negative');
         const submitBtn = document.getElementById('submit-btn');
         const templateContainer = document.getElementById('template-container');
 
-        // --- POOL OF 100 MENU-SPECIFIC REVIEW SUGGESTIONS ---
+        // --- REVIEW POOL (150 ITEMS) ---
         const reviewPool = [
-    // --- ENGLISH REVIEWS (1 to 75) ---
-    "The Mava Malai here is absolutely divine.",
-    "I love the rich texture of their Amul ice cream.",
-    "Best Mava Malai in the city, hands down.",
-    "Fresh Amul flavors that never disappoint.",
-    "The Mava Malai melts in your mouth perfectly.",
-    "Authentic Amul taste and premium quality desserts.",
-    "A perfect treat for sweet cravings. The Mava Malai is a must!",
-    "You can really taste the freshness in their ice cream.",
-    "Classic Amul vanilla is my absolute favorite here.",
-    "They use premium ingredients for their Mava Malai.",
-    "An incredible variety of fresh Amul ice creams.",
-    "The Mava Malai portion size is generous and fulfilling.",
-    "Perfect place to enjoy a classic Amul chocolate scoop.",
-    "I highly recommend trying their signature Mava Malai.",
-    "The desserts are always chilled to perfection.",
-    "Their Ice Dish Gola is a refreshing blast of flavors.",
-    "The shaved ice in the Gola is so soft and perfect.",
-    "Best Rajwadi Ice Dish Gola I have ever had!",
-    "The syrups used in the Gola are rich and flavorful.",
-    "Highly recommend the dry fruit Ice Dish Gola.",
-    "The classic Kala Khatta Gola here is amazing.",
-    "A perfect summer treat! The Ice Dish is loaded with toppings.",
-    "They don't skimp on the syrups in their Gola.",
-    "My kids absolutely love the chocolate Ice Dish Gola.",
-    "The Rose flavor Gola is perfectly sweet and refreshing.",
-    "It's rare to find such high-quality Ice Dish Gola.",
-    "The Gola brings back so many childhood memories!",
-    "Perfectly balanced sweetness in every bite of the Ice Dish.",
-    "The mixed fruit Gola is a must-try for everyone.",
-    "I can eat their Ice Dish Gola every single day.",
-    "The presentation is flawless. The sides of the dish are perfectly clean with no messy mava or chocolate drips.",
-    "I love how hygienic they are. Even the edges of the serving plates are spotless.",
-    "Spotless presentation! The ice cream is served so neatly without making the dish look dirty.",
-    "They wipe the sides of the dish perfectly before serving. A visually beautiful dessert!",
-    "Five stars for cleanliness. The presentation is clean, neat, and highly appetizing.",
-    "Very hygienic preparation of street-style Gola.",
-    "The parlor is sparkling clean and smells fresh.",
-    "Clean tables, clean floors, and super clean dishes!",
-    "I am very particular about hygiene, and this place exceeds expectations.",
-    "They serve the Mava Malai so neatly, absolutely no messy edges.",
-    "The staff uses gloves and maintains great hygiene.",
-    "The Ice Dish is arranged beautifully in a perfectly clean bowl.",
-    "Outstanding cleanliness in the preparation area.",
-    "You can eat here without any hygiene concerns.",
-    "The neat presentation makes the food look even more premium.",
-    "Even during a rush, they ensure the serving dish is clean and presentable.",
-    "Great to see an Amul parlor taking cleanliness so seriously.",
-    "The spoons and serving bowls are always thoroughly washed.",
-    "Excellent attention to visual details; the desserts are picture-perfect.",
-    "Hygienic, tasty, and beautifully presented every time.",
-    "The staff is polite, quick, and very welcoming.",
-    "Great ambiance for a family dessert outing.",
-    "The owner is very friendly and suggests great flavors.",
-    "Fast service, even on busy weekend nights.",
-    "A peaceful and bright atmosphere to enjoy ice cream.",
-    "Excellent customer service and a smiling staff.",
-    "Affordable pricing for such high-quality desserts.",
-    "We always bring our guests here after dinner.",
-    "The music and vibe make it a great hangout spot.",
-    "Total value for money. Highly recommended!",
-    "A very well-maintained and organized parlor.",
-    "Quick delivery to the table, and the order is always right.",
-    "The seating is comfortable and family-friendly.",
-    "Great location and very easy to find.",
-    "I always leave this parlor with a smile!",
-    "5 stars! Simply the best Amul parlor.",
-    "Delicious food and great service.",
-    "Highly recommended for dessert lovers.",
-    "Unmatched taste and quality.",
-    "A completely satisfying experience.",
-    "Will definitely visit again very soon!",
-    "Top-notch Ice Dish and Amul products.",
-    "Absolutely loved it. 10/10!",
-    "Best spot for evening cravings.",
-    "Perfection in every scoop!",
+            "The Mava Malai here is absolutely divine.", "I love the rich texture of their Amul ice cream.",
+            "Best Mava Malai in the city, hands down.", "Fresh Amul flavors that never disappoint.",
+            "The Mava Malai melts in your mouth perfectly.", "Authentic Amul taste and premium quality desserts.",
+            "A perfect treat for sweet cravings. The Mava Malai is a must!", "You can really taste the freshness in their ice cream.",
+            "Classic Amul vanilla is my absolute favorite here.", "They use premium ingredients for their Mava Malai.",
+            "An incredible variety of fresh Amul ice creams.", "The Mava Malai portion size is generous and fulfilling.",
+            "Perfect place to enjoy a classic Amul chocolate scoop.", "I highly recommend trying their signature Mava Malai.",
+            "The desserts are always chilled to perfection.", "Their Ice Dish Gola is a refreshing blast of flavors.",
+            "The shaved ice in the Gola is so soft and perfect.", "Best Rajwadi Ice Dish Gola I have ever had!",
+            "The syrups used in the Gola are rich and flavorful.", "Highly recommend the dry fruit Ice Dish Gola.",
+            "The classic Kala Khatta Gola here is amazing.", "A perfect summer treat! The Ice Dish is loaded with toppings.",
+            "They don't skimp on the syrups in their Gola.", "My kids absolutely love the chocolate Ice Dish Gola.",
+            "The Rose flavor Gola is perfectly sweet and refreshing.", "It's rare to find such high-quality Ice Dish Gola.",
+            "The Gola brings back so many childhood memories!", "Perfectly balanced sweetness in every bite of the Ice Dish.",
+            "The mixed fruit Gola is a must-try for everyone.", "I can eat their Ice Dish Gola every single day.",
+            "The presentation is flawless. The sides of the dish are perfectly clean with no messy mava or chocolate drips.",
+            "I love how hygienic they are. Even the edges of the serving plates are spotless.",
+            "Spotless presentation! The ice cream is served so neatly without making the dish look dirty.",
+            "They wipe the sides of the dish perfectly before serving. A visually beautiful dessert!",
+            "Five stars for cleanliness. The presentation is clean, neat, and highly appetizing.",
+            "Very hygienic preparation of street-style Gola.", "The parlor is sparkling clean and smells fresh.",
+            "Clean tables, clean floors, and super clean dishes!", "I am very particular about hygiene, and this place exceeds expectations.",
+            "They serve the Mava Malai so neatly, absolutely no messy edges.", "The staff uses gloves and maintains great hygiene.",
+            "The Ice Dish is arranged beautifully in a perfectly clean bowl.", "Outstanding cleanliness in the preparation area.",
+            "You can eat here without any hygiene concerns.", "The neat presentation makes the food look even more premium.",
+            "Even during a rush, they ensure the serving dish is clean and presentable.",
+            "Great to see an Amul parlor taking cleanliness so seriously.", "The spoons and serving bowls are always thoroughly washed.",
+            "Excellent attention to visual details; the desserts are picture-perfect.", "Hygienic, tasty, and beautifully presented every time.",
+            "The staff is polite, quick, and very welcoming.", "Great ambiance for a family dessert outing.",
+            "The owner is very friendly and suggests great flavors.", "Fast service, even on busy weekend nights.",
+            "A peaceful and bright atmosphere to enjoy ice cream.", "Excellent customer service and a smiling staff.",
+            "Affordable pricing for such high-quality desserts.", "We always bring our guests here after dinner.",
+            "The music and vibe make it a great hangout spot.", "Total value for money. Highly recommended!",
+            "A very well-maintained and organized parlor.", "Quick delivery to the table, and the order is always right.",
+            "The seating is comfortable and family-friendly.", "Great location and very easy to find.",
+            "I always leave this parlor with a smile!", "5 stars! Simply the best Amul parlor.",
+            "Delicious food and great service.", "Highly recommended for dessert lovers.",
+            "Unmatched taste and quality.", "A completely satisfying experience.",
+            "Will definitely visit again very soon!", "Top-notch Ice Dish and Amul products.",
+            "Absolutely loved it. 10/10!", "Best spot for evening cravings.", "Perfection in every scoop!",
+            "અહીંની માવા મલાઈનો સ્વાદ અદ્ભુત છે.", "અમૂલ આઈસ્ક્રીમની ક્વોલિટી હંમેશા બેસ્ટ હોય છે.",
+            "શહેરની સૌથી બેસ્ટ માવા મલાઈ અહીં મળે છે.", "અમૂલના ફ્રેશ ફ્લેવર્સ ખાવાની ખૂબ મજા આવે છે.",
+            "માવા મલાઈ મોંમાં મુકતા જ ઓગળી જાય છે.", "ડેઝર્ટ માટે આ એકદમ પરફેક્ટ જગ્યા છે.",
+            "અમૂલ આઈસ્ક્રીમની તાજગી અહીં સ્પષ્ટ દેખાય છે.", "ક્લાસિક અમૂલ વેનીલા આઈસ્ક્રીમ મારો ફેવરિટ છે.",
+            "તેઓ માવા મલાઈમાં પ્રીમિયમ વસ્તુઓ વાપરે છે.", "અમૂલ આઈસ્ક્રીમની અઢળક વેરાયટી અહીં ઉપલબ્ધ છે.",
+            "માવા મલાઈનું પોર્શન ઘણું સારું અને સંતોષકારક હોય છે.", "અમૂલ ચોકલેટ સ્કોપ ખાવા માટે આ બેસ્ટ જગ્યા છે.",
+            "હું દરેકને અહીંની માવા મલાઈ ટ્રાય કરવા માટે ચોક્કસ કહીશ.", "દરેક ડેઝર્ટ એકદમ પરફેક્ટ ઠંડુ હોય છે.",
+            "અસલ અમૂલનો સ્વાદ અને પ્રીમિયમ ક્વોલિટી.", "અહીંનો આઈસ ડીશ ગોલો ખૂબ જ રિફ્રેશિંગ છે.",
+            "ગોલામાં બરફ એકદમ સોફ્ટ અને સરસ હોય છે.", "મેં ખાધેલો સૌથી બેસ્ટ રજવાડી આઈસ ડીશ ગોલો!",
+            "ગોલામાં વપરાતા સિરપ ખૂબ જ ટેસ્ટી અને સારી ગુણવત્તાના હોય છે.", "ડ્રાયફ્રૂટ આઈસ ડીશ ગોલો ખાસ ટ્રાય કરવા જેવો છે.",
+            "અહીંનો ક્લાસિક કાલા ખટ્ટા ગોલો જબરદસ્ત છે.", "ગરમીમાં આ ડીશ ગોલો એકદમ પરફેક્ટ છે!",
+            "ગોલામાં સિરપ અને ટોપિંગ્સ ખૂબ જ સારી માત્રામાં આપે છે.", "મારા બાળકોને ચોકલેટ આઈસ ડીશ ગોલો ખૂબ ભાવે છે.",
+            "રોઝ ફ્લેવર ગોલો એકદમ સરસ અને મીઠો છે.", "આવો સારી ક્વોલિટીનો આઈસ ડીશ ગોલો ભાગ્યે જ જોવા મળે છે.",
+            "ગોલો ખાઈને બાળપણની યાદો તાજી થઈ ગઈ!", "આઈસ ડીશમાં ગળપણનું પ્રમાણ એકદમ પરફેક્ટ છે.",
+            "મિક્સ ફ્રૂટ ગોલો દરેકને ભાવે તેવો છે.", "હું રોજ અહીંનો આઈસ ડીશ ગોલો ખાઈ શકું છું.",
+            "પ્રેઝન્ટેશન એકદમ સરસ છે. ડીશની કિનારીઓ સાફ હોય છે અને કોઈ ચોકલેટ કે માવો ઢોળાયેલો હોતો નથી.",
+            "મને અહીંની સ્વચ્છતા ખૂબ ગમે છે. ડીશની કિનારીઓ પણ એકદમ સ્વચ્છ હોય છે.",
+            "ડીશને આપતા પહેલા તેને બરાબર સાફ કરવામાં આવે છે, જેથી ડીશ ગંદી ન લાગે.",
+            "તેઓ સ્વચ્છતાનું પૂરું ધ્યાન રાખે છે. પ્રેઝન્ટેશન એકદમ પ્રોફેશનલ છે.",
+            "સ્વચ્છતા માટે પૂરા 5 સ્ટાર. ખાવાનું એકદમ નીટ અને ક્લીન હોય છે.",
+            "ગોલા જેવી સ્ટ્રીટ આઈટમ પણ અહીં ખૂબ જ હાઈજેનિક રીતે બનાવવામાં આવે છે.",
+            "પાર્લર એકદમ સ્વચ્છ છે અને વાતાવરણ પણ સરસ છે.",
+            "ટેબલ, ફ્લોર અને ડીશ બધું જ એકદમ ક્લીન હોય છે.",
+            "હું સ્વચ્છતાનો ખૂબ આગ્રહી છું અને આ જગ્યા મને ખૂબ ગમી.",
+            "માવા મલાઈ એટલી સરસ રીતે પીરસે છે કે ડીશની આજુબાજુ કોઈ ગંદકી નથી હોતી.",
+            "સ્ટાફ સ્વચ્છતાના નિયમોનું કડક પાલન કરે છે.", "આઈસ ડીશ ખૂબ જ સુંદર અને સાફ બાઉલમાં આપવામાં આવે છે.",
+            "પાર્લરમાં કિચન અને બનાવવાની જગ્યા એકદમ ચોખ્ખી છે.", "તમે કોઈપણ ચિંતા વગર અહીં ખાઈ શકો છો.",
+            "ચોખ્ખું પ્રેઝન્ટેશન ડેઝર્ટનો સ્વાદ બમણો કરી દે છે.", "ભીડ હોય તો પણ ડીશની સ્વચ્છતામાં કોઈ બાંધછોડ નથી હોતી.",
+            "અમૂલ પાર્લર આટલું ચોખ્ખું જોઈને ખૂબ આનંદ થયો.", "વાસણો અને ચમચીઓ એકદમ સાફ હોય છે.",
+            "ફોટોગ્રાફી માટે પરફેક્ટ દેખાય તેવી સુંદર અને સાફ ડીશ પીરસે છે.", "હાઈજેનિક, સ્વાદિષ્ટ અને સુંદર પ્રેઝન્ટેશન!",
+            "સ્ટાફ ખૂબ જ નમ્ર અને ઝડપી છે.", "ફેમિલી સાથે ડેઝર્ટ ખાવા માટે બેસ્ટ જગ્યા.",
+            "માલિકનો સ્વભાવ સારો છે અને સારા ફ્લેવર સજેસ્ટ કરે છે.", "ખૂબ જ ફાસ્ટ સર્વિસ છે.",
+            "શાંત અને ખુશનુમા વાતાવરણ.", "ઉત્તમ કસ્ટમર સર્વિસ અને હસમુખો સ્ટાફ.",
+            "સારી ગુણવત્તા પ્રમાણે કિંમત એકદમ વ્યાજબી છે.", "અમે જમ્યા પછી હંમેશા અમારા મહેમાનોને અહીં લાવીએ છીએ.",
+            "પાર્લરનું મ્યુઝિક અને વાતાવરણ ખૂબ મસ્ત છે.", "પૈસા વસૂલ જગ્યા! 100% રેકોમેન્ડેડ.",
+            "ખૂબ જ સારી રીતે મેનેજ કરેલું પાર્લર.", "ઓર્ડર એકદમ ઝડપથી અને સાચો જ મળે છે.",
+            "બેસવાની વ્યવસ્થા ખૂબ સારી છે.", "લોકેશન સરસ છે અને સરળતાથી મળી જાય છે.",
+            "અહીંથી હંમેશા ખુશ થઈને જ પાછા ફરીએ છીએ!", "5 સ્ટાર! અમૂલ માટે બેસ્ટ પાર્લર.",
+            "સ્વાદિષ્ટ ડેઝર્ટ અને ઉત્તમ સર્વિસ.", "મીઠાઈના શોખીનો માટે શ્રેષ્ઠ જગ્યા.",
+            "સ્વાદ અને ક્વોલિટીમાં કોઈ જ તોડ નથી.", "એકદમ સંતોષકારક અનુભવ.",
+            "હું ચોક્કસ ફરીથી જલ્દી આવીશ!", "બેસ્ટ આઈસ ડીશ અને અમૂલ પ્રોડક્ટ્સ.",
+            "મને આ જગ્યા ખૂબ જ ગમી. 10/10!", "સાંજના સમયે કંઈક મીઠું ખાવા માટે બેસ્ટ સ્પોટ.",
+            "દરેક ચમચીમાં પરફેક્ટ સ્વાદ!"
+        ];
 
-    // --- GUJARATI REVIEWS (76 to 150) ---
-    "અહીંની માવા મલાઈનો સ્વાદ અદ્ભુત છે.",
-    "અમૂલ આઈસ્ક્રીમની ક્વોલિટી હંમેશા બેસ્ટ હોય છે.",
-    "શહેરની સૌથી બેસ્ટ માવા મલાઈ અહીં મળે છે.",
-    "અમૂલના ફ્રેશ ફ્લેવર્સ ખાવાની ખૂબ મજા આવે છે.",
-    "માવા મલાઈ મોંમાં મુકતા જ ઓગળી જાય છે.",
-    "ડેઝર્ટ માટે આ એકદમ પરફેક્ટ જગ્યા છે.",
-    "અમૂલ આઈસ્ક્રીમની તાજગી અહીં સ્પષ્ટ દેખાય છે.",
-    "ક્લાસિક અમૂલ વેનીલા આઈસ્ક્રીમ મારો ફેવરિટ છે.",
-    "તેઓ માવા મલાઈમાં પ્રીમિયમ વસ્તુઓ વાપરે છે.",
-    "અમૂલ આઈસ્ક્રીમની અઢળક વેરાયટી અહીં ઉપલબ્ધ છે.",
-    "માવા મલાઈનું પોર્શન ઘણું સારું અને સંતોષકારક હોય છે.",
-    "અમૂલ ચોકલેટ સ્કોપ ખાવા માટે આ બેસ્ટ જગ્યા છે.",
-    "હું દરેકને અહીંની માવા મલાઈ ટ્રાય કરવા માટે ચોક્કસ કહીશ.",
-    "દરેક ડેઝર્ટ એકદમ પરફેક્ટ ઠંડુ હોય છે.",
-    "અસલ અમૂલનો સ્વાદ અને પ્રીમિયમ ક્વોલિટી.",
-    "અહીંનો આઈસ ડીશ ગોલો ખૂબ જ રિફ્રેશિંગ છે.",
-    "ગોલામાં બરફ એકદમ સોફ્ટ અને સરસ હોય છે.",
-    "મેં ખાધેલો સૌથી બેસ્ટ રજવાડી આઈસ ડીશ ગોલો!",
-    "ગોલામાં વપરાતા સિરપ ખૂબ જ ટેસ્ટી અને સારી ગુણવત્તાના હોય છે.",
-    "ડ્રાયફ્રૂટ આઈસ ડીશ ગોલો ખાસ ટ્રાય કરવા જેવો છે.",
-    "અહીંનો ક્લાસિક કાલા ખટ્ટા ગોલો જબરદસ્ત છે.",
-    "ગરમીમાં આ ડીશ ગોલો એકદમ પરફેક્ટ છે!",
-    "ગોલામાં સિરપ અને ટોપિંગ્સ ખૂબ જ સારી માત્રામાં આપે છે.",
-    "મારા બાળકોને ચોકલેટ આઈસ ડીશ ગોલો ખૂબ ભાવે છે.",
-    "રોઝ ફ્લેવર ગોલો એકદમ સરસ અને મીઠો છે.",
-    "આવો સારી ક્વોલિટીનો આઈસ ડીશ ગોલો ભાગ્યે જ જોવા મળે છે.",
-    "ગોલો ખાઈને બાળપણની યાદો તાજી થઈ ગઈ!",
-    "આઈસ ડીશમાં ગળપણનું પ્રમાણ એકદમ પરફેક્ટ છે.",
-    "મિક્સ ફ્રૂટ ગોલો દરેકને ભાવે તેવો છે.",
-    "હું રોજ અહીંનો આઈસ ડીશ ગોલો ખાઈ શકું છું.",
-    "પ્રેઝન્ટેશન એકદમ સરસ છે. ડીશની કિનારીઓ સાફ હોય છે અને કોઈ ચોકલેટ કે માવો ઢોળાયેલો હોતો નથી.",
-    "મને અહીંની સ્વચ્છતા ખૂબ ગમે છે. ડીશની કિનારીઓ પણ એકદમ સ્વચ્છ હોય છે.",
-    "ડીશને આપતા પહેલા તેને બરાબર સાફ કરવામાં આવે છે, જેથી ડીશ ગંદી ન લાગે.",
-    "તેઓ સ્વચ્છતાનું પૂરું ધ્યાન રાખે છે. પ્રેઝન્ટેશન એકદમ પ્રોફેશનલ છે.",
-    "સ્વચ્છતા માટે પૂરા 5 સ્ટાર. ખાવાનું એકદમ નીટ અને ક્લીન હોય છે.",
-    "ગોલા જેવી સ્ટ્રીટ આઈટમ પણ અહીં ખૂબ જ હાઈજેનિક રીતે બનાવવામાં આવે છે.",
-    "પાર્લર એકદમ સ્વચ્છ છે અને વાતાવરણ પણ સરસ છે.",
-    "ટેબલ, ફ્લોર અને ડીશ બધું જ એકદમ ક્લીન હોય છે.",
-    "હું સ્વચ્છતાનો ખૂબ આગ્રહી છું અને આ જગ્યા મને ખૂબ ગમી.",
-    "માવા મલાઈ એટલી સરસ રીતે પીરસે છે કે ડીશની આજુબાજુ કોઈ ગંદકી નથી હોતી.",
-    "સ્ટાફ સ્વચ્છતાના નિયમોનું કડક પાલન કરે છે.",
-    "આઈસ ડીશ ખૂબ જ સુંદર અને સાફ બાઉલમાં આપવામાં આવે છે.",
-    "પાર્લરમાં કિચન અને બનાવવાની જગ્યા એકદમ ચોખ્ખી છે.",
-    "તમે કોઈપણ ચિંતા વગર અહીં ખાઈ શકો છો.",
-    "ચોખ્ખું પ્રેઝન્ટેશન ડેઝર્ટનો સ્વાદ બમણો કરી દે છે.",
-    "ભીડ હોય તો પણ ડીશની સ્વચ્છતામાં કોઈ બાંધછોડ નથી હોતી.",
-    "અમૂલ પાર્લર આટલું ચોખ્ખું જોઈને ખૂબ આનંદ થયો.",
-    "વાસણો અને ચમચીઓ એકદમ સાફ હોય છે.",
-    "ફોટોગ્રાફી માટે પરફેક્ટ દેખાય તેવી સુંદર અને સાફ ડીશ પીરસે છે.",
-    "હાઈજેનિક, સ્વાદિષ્ટ અને સુંદર પ્રેઝન્ટેશન!",
-    "સ્ટાફ ખૂબ જ નમ્ર અને ઝડપી છે.",
-    "ફેમિલી સાથે ડેઝર્ટ ખાવા માટે બેસ્ટ જગ્યા.",
-    "માલિકનો સ્વભાવ સારો છે અને સારા ફ્લેવર સજેસ્ટ કરે છે.",
-    "ખૂબ જ ફાસ્ટ સર્વિસ છે.",
-    "શાંત અને ખુશનુમા વાતાવરણ.",
-    "ઉત્તમ કસ્ટમર સર્વિસ અને હસમુખો સ્ટાફ.",
-    "સારી ગુણવત્તા પ્રમાણે કિંમત એકદમ વ્યાજબી છે.",
-    "અમે જમ્યા પછી હંમેશા અમારા મહેમાનોને અહીં લાવીએ છીએ.",
-    "પાર્લરનું મ્યુઝિક અને વાતાવરણ ખૂબ મસ્ત છે.",
-    "પૈસા વસૂલ જગ્યા! 100% રેકોમેન્ડેડ.",
-    "ખૂબ જ સારી રીતે મેનેજ કરેલું પાર્લર.",
-    "ઓર્ડર એકદમ ઝડપથી અને સાચો જ મળે છે.",
-    "બેસવાની વ્યવસ્થા ખૂબ સારી છે.",
-    "લોકેશન સરસ છે અને સરળતાથી મળી જાય છે.",
-    "અહીંથી હંમેશા ખુશ થઈને જ પાછા ફરીએ છીએ!",
-    "5 સ્ટાર! અમૂલ માટે બેસ્ટ પાર્લર.",
-    "સ્વાદિષ્ટ ડેઝર્ટ અને ઉત્તમ સર્વિસ.",
-    "મીઠાઈના શોખીનો માટે શ્રેષ્ઠ જગ્યા.",
-    "સ્વાદ અને ક્વોલિટીમાં કોઈ જ તોડ નથી.",
-    "એકદમ સંતોષકારક અનુભવ.",
-    "હું ચોક્કસ ફરીથી જલ્દી આવીશ!",
-    "બેસ્ટ આઈસ ડીશ અને અમૂલ પ્રોડક્ટ્સ.",
-    "મને આ જગ્યા ખૂબ જ ગમી. 10/10!",
-    "સાંજના સમયે કંઈક મીઠું ખાવા માટે બેસ્ટ સ્પોટ.",
-    "દરેક ચમચીમાં પરફેક્ટ સ્વાદ!"
-];
-
-        // Function to shuffle array and pick a specific number of items
-        function getRandomReviews(pool, count) {
-            const shuffled = [...pool].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, count);
+        // --- NATIVE APP DETECTION URL ---
+        function getNativeAppUrl() {
+            const isAndroid = /android/i.test(navigator.userAgent || navigator.vendor || window.opera);
+            if (isAndroid && PLACE_ID !== "YOUR_PLACE_ID_HERE") {
+                return `intent://search.google.com/local/writereview?placeid=${PLACE_ID}#Intent;package=com.google.android.apps.maps;scheme=https;end;`;
+            } else {
+                return IOS_REVIEW_LINK;
+            }
         }
 
-        // Generate 4 random buttons on load
+        // --- RANDOM TEMPLATES ---
         function loadRandomTemplates() {
-            templateContainer.innerHTML = ''; // Clear container
-            const selectedReviews = getRandomReviews(reviewPool, 4);
+            templateContainer.innerHTML = ''; 
+            const shuffled = [...reviewPool].sort(() => 0.5 - Math.random());
+            const selectedReviews = shuffled.slice(0, 4);
 
             selectedReviews.forEach(text => {
                 const btn = document.createElement('button');
                 btn.className = 'btn-tmpl';
                 btn.innerText = text;
                 
-                // Add click event to the new button
                 btn.addEventListener('click', () => {
-                    // Remove selected state from all
                     document.querySelectorAll('.btn-tmpl').forEach(b => b.classList.remove('selected'));
-                    // Add selected state to clicked
                     btn.classList.add('selected');
-                    // Fill text area
-                    reviewText.value = btn.innerText;
+                    reviewTextPositive.value = btn.innerText;
                 });
-                
                 templateContainer.appendChild(btn);
             });
         }
-
-        // Initialize random templates when the page loads
         loadRandomTemplates();
 
-        // Handle Interactive Star Rating
+        // --- STAR RATING & REVIEW GATE LOGIC ---
         stars.forEach(star => {
             star.addEventListener('click', () => {
-                let value = star.getAttribute('data-value');
+                let value = parseInt(star.getAttribute('data-value'));
                 
                 stars.forEach(s => s.classList.remove('active'));
-                
                 for(let i=0; i<value; i++) {
                     stars[i].classList.add('active');
                 }
                 
-                step2.style.display = 'block';
-                
-                if(value === '5' && reviewText.value === "") {
-                    reviewText.value = "Great experience at this Amul parlor!";
+                // The Gate: Route based on stars
+                if (value >= 4) {
+                    step2Positive.style.display = 'block';
+                    step2Negative.style.display = 'none';
+                    if(value === 5 && reviewTextPositive.value === "") {
+                        reviewTextPositive.value = "Great experience at this Amul parlor!";
+                    }
+                } else {
+                    step2Positive.style.display = 'none';
+                    step2Negative.style.display = 'block';
                 }
             });
         });
 
-        // Handle the "Clipboard Trick" and Redirect
+        // --- GOOGLE MAPS REDIRECT ---
         function copyAndRedirect() {
-            const textToCopy = reviewText.value.trim();
-            
+            const textToCopy = reviewTextPositive.value.trim();
             if (!textToCopy) {
                 alert("Please select or type a review first.");
                 return;
@@ -421,16 +414,25 @@
             navigator.clipboard.writeText(textToCopy).then(() => {
                 submitBtn.innerText = "✓ Copied! Opening Google Maps...";
                 submitBtn.style.backgroundColor = "#28a745"; 
-                
-                setTimeout(() => {
-                    window.location.href = GOOGLE_REVIEW_LINK;
-                }, 1200);
-                
-            }).catch(err => {
-                console.error('Clipboard permission denied: ', err);
-                window.location.href = GOOGLE_REVIEW_LINK;
+                setTimeout(() => { window.location.href = getNativeAppUrl(); }, 1200);
+            }).catch(() => {
+                window.location.href = getNativeAppUrl();
             });
+        }
+
+        // --- WHATSAPP REDIRECT ---
+        function sendToWhatsApp() {
+            const feedbackText = reviewTextNegative.value.trim();
+            let message = "Hi Manager, I just visited the parlor and had a concern: ";
+            if (feedbackText) {
+                message += feedbackText;
+            } else {
+                message += "My experience wasn't great and I wanted to let you know.";
+            }
+            
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.location.href = whatsappUrl;
         }
     </script>
 </body>
-</html> 
+</html>
