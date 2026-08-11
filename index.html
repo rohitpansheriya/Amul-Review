@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rate Our Amul Parlor</title>
+  <meta name="description" content="Share your experience at our Amul Parlor. Rate your visit and help us serve you better." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── CSS Variables (Brand Tokens) ─── */
+    :root {
+      --color-primary:    #00458b;
+      --color-secondary:  #eef5ff;
+      --color-accent:     #e21b22;
+      --color-star:       #ffc107;
+      --color-whatsapp:   #25D366;
+      --color-bg:         #f0f4f8;
+      --color-surface:    #ffffff;
+      --color-text:       #1a2340;
+      --color-text-muted: #6b7a99;
+      --color-border:     #dce6f5;
+      --radius-lg:        16px;
+      --radius-md:        10px;
+      --radius-sm:        6px;
+      --shadow-card:      0 8px 32px rgba(0,69,139,0.10);
+      --shadow-btn:       0 4px 16px rgba(0,69,139,0.18);
+      --transition:       0.22s cubic-bezier(.4,0,.2,1);
+      --font:             'Inter', system-ui, sans-serif;
+    }
+
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--color-bg);
+      color: var(--color-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 48px;
+    }
+
+    /* ─── Main Card ─── */
+    .app-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      width: 100%;
+      max-width: 480px;
+      overflow: hidden;
+      animation: cardIn 0.5s cubic-bezier(.4,0,.2,1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Header ─── */
+    .app-header {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #0062c7 100%);
+      padding: 32px 28px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .app-header::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .app-header::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: -30px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 999px;
+      padding: 10px 24px;
+      margin-bottom: 24px;
+    }
+    .brand-logo span {
+      color: #ffffff;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .brand-logo .dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--color-star);
+    }
+    .header-greeting {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+    .header-sub {
+      color: rgba(255,255,255,0.7);
+      font-size: 13px;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Star Rating ─── */
+    .star-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .star-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      transition: transform var(--transition), filter var(--transition);
+      font-size: 0;
+      line-height: 0;
+    }
+    .star-btn:hover { transform: scale(1.22); }
+    .star-btn:active { transform: scale(0.92); }
+    .star-btn svg {
+      width: 44px; height: 44px;
+      transition: fill var(--transition), filter var(--transition);
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
+    }
+    .star-btn svg .star-fill {
+      fill: rgba(255,255,255,0.25);
+      transition: fill var(--transition);
+    }
+    .star-btn.active svg .star-fill,
+    .star-btn.hover svg .star-fill {
+      fill: var(--color-star);
+    }
+    .star-btn.active svg,
+    .star-btn.hover svg {
+      filter: drop-shadow(0 2px 10px rgba(255,193,7,0.55));
+    }
+
+    /* ─── Body Section ─── */
+    .section-body {
+      padding: 28px;
+    }
+
+    /* ─── Review Route Sections ─── */
+    .route-section {
+      display: none;
+      animation: fadeUp 0.38s cubic-bezier(.4,0,.2,1) both;
+    }
+    .route-section.visible { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Section Title ─── */
+    .section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 4px;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    /* ─── Category Tag Pills ─── */
+    .tag-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--color-text-muted);
+      margin-bottom: 10px;
+    }
+    .tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .category-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--color-secondary);
+      border: 1.5px solid var(--color-border);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text);
+      cursor: pointer;
+      font-family: var(--font);
+      transition: background var(--transition), border-color var(--transition),
+                  color var(--transition), transform var(--transition),
+                  box-shadow var(--transition);
+      user-select: none;
+      white-space: nowrap;
+    }
+    .category-tag:hover {
+      border-color: var(--color-primary);
+      background: #ddeeff;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(0,69,139,0.10);
+    }
+    .category-tag:active { transform: scale(0.96); }
+    .category-tag.selected {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #ffffff;
+      box-shadow: 0 3px 12px rgba(0,69,139,0.28);
+    }
+    .category-tag.selected:hover {
+      background: #005ab5;
+      border-color: #005ab5;
+      transform: translateY(-1px);
+    }
+
+    /* ─── AI Generated Review Tag ─── */
+    .tag-ai {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      border: 1.5px solid transparent;
+      color: #ffffff;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      box-shadow: 0 3px 14px rgba(106,17,203,0.30);
+    }
+    .tag-ai:hover {
+      background: linear-gradient(135deg, #7c28e0 0%, #3a88ff 100%);
+      border-color: transparent;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 18px rgba(106,17,203,0.42);
+    }
+    .tag-ai.selected {
+      background: linear-gradient(135deg, #4a0d9e 0%, #1557d4 100%);
+      border-color: rgba(255,255,255,0.3);
+      color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(106,17,203,0.25), 0 4px 16px rgba(106,17,203,0.35);
+    }
+    .tag-ai.selected:hover {
+      background: linear-gradient(135deg, #5a10b8 0%, #1f6be8 100%);
+      border-color: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
+    }
+
+    /* ─── AI / Standard separator ─── */
+    .tag-separator {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0 2px;
+      pointer-events: none;
+    }
+    .tag-separator::before,
+    .tag-separator::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+    .tag-separator span {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+    .tag-hint {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    /* ─── Textarea ─── */
+    .review-textarea {
+      width: 100%;
+      min-height: 110px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 14px;
+      font-family: var(--font);
+      color: var(--color-text);
+      resize: vertical;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      background: var(--color-secondary);
+      margin-bottom: 14px;
+    }
+    .review-textarea:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(0,69,139,0.10);
+      background: #fff;
+    }
+    .review-textarea::placeholder { color: var(--color-text-muted); }
+
+    /* ─── Buttons ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), opacity var(--transition);
+      letter-spacing: 0.01em;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0) scale(0.98); }
+
+    .btn-google {
+      background: linear-gradient(135deg, var(--color-accent) 0%, #c0141a 100%);
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(226,27,34,0.30);
+    }
+    .btn-google:hover { box-shadow: 0 6px 24px rgba(226,27,34,0.42); }
+
+    .btn-whatsapp {
+      background: linear-gradient(135deg, var(--color-whatsapp) 0%, #1aac56 100%);
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(37,211,102,0.30);
+    }
+    .btn-whatsapp:hover { box-shadow: 0 6px 24px rgba(37,211,102,0.42); }
+
+    /* ─── Copy Success Toast ─── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1a2340;
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+      transition: transform 0.32s cubic-bezier(.4,0,.2,1), opacity 0.32s;
+      opacity: 0;
+      z-index: 999;
+      white-space: nowrap;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* ─── Divider ─── */
+    .divider {
+      border: none;
+      border-top: 1.5px solid var(--color-border);
+      margin: 20px 0;
+    }
+
+    /* ─── Emoji/Icon inline ─── */
+    .section-icon {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* ─── Apology block ─── */
+    .apology-box {
+      background: #fff8e1;
+      border: 1.5px solid #ffe082;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-size: 13.5px;
+      color: #7a5800;
+      line-height: 1.55;
+    }
+
+    /* ─── Initial placeholder ─── */
+    .initial-msg {
+      text-align: center;
+      padding: 20px 0 4px;
+      color: var(--color-text-muted);
+      font-size: 14px;
+    }
+    .initial-msg .arrow-hint {
+      font-size: 26px;
+      display: block;
+      margin-bottom: 6px;
+      animation: bounce 1.8s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-6px); }
+    }
+
+    /* ─── Footer ─── */
+    .app-footer {
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    /* ─── Mobile tweaks ─── */
+    @media (max-width: 360px) {
+      .star-btn svg { width: 38px; height: 38px; }
+      .category-tag { font-size: 12px; padding: 6px 11px; }
+    }
+
+    /* ══════════════════════════════════════════════════
+       PRINT / POSTER VIEW  (@media print)
+    ══════════════════════════════════════════════════ */
+    .poster { display: none; }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+        margin: 0;
+        display: block;
+      }
+      .app-card,
+      .app-footer,
+      .toast { display: none !important; }
+
+      .poster {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto;
+        padding: 20mm 18mm;
+        font-family: var(--font);
+        text-align: center;
+        page-break-inside: avoid;
+      }
+
+      .poster-logo-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12mm;
+      }
+      .poster-logo-bar .brand-pill {
+        background: var(--color-primary);
+        color: #fff;
+        font-size: 13pt;
+        font-weight: 700;
+        padding: 6px 20px;
+        border-radius: 999px;
+        letter-spacing: 0.04em;
+      }
+
+      .poster-title {
+        font-size: 28pt;
+        font-weight: 800;
+        color: var(--color-primary);
+        line-height: 1.2;
+        margin-bottom: 6mm;
+      }
+      .poster-title span { color: var(--color-accent); }
+
+      .poster-sub {
+        font-size: 13pt;
+        color: #555;
+        margin-bottom: 12mm;
+        max-width: 140mm;
+      }
+
+      /* QR Code placeholder */
+      .poster-qr {
+        width: 72mm;
+        height: 72mm;
+        border: 3px solid var(--color-primary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8mm;
+        position: relative;
+        overflow: hidden;
+      }
+      .poster-qr-inner {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(7, 1fr);
+        width: 60mm;
+        height: 60mm;
+        gap: 1.5mm;
+      }
+      .poster-qr-cell {
+        background: var(--color-primary);
+        border-radius: 1px;
+      }
+      .poster-qr-cell.empty { background: transparent; }
+      .poster-qr-corner {
+        position: absolute;
+        width: 14mm; height: 14mm;
+        border: 3mm solid var(--color-primary);
+        border-radius: 3px;
+      }
+      .poster-qr-corner.tl { top: 5mm; left: 5mm; }
+      .poster-qr-corner.tr { top: 5mm; right: 5mm; }
+      .poster-qr-corner.bl { bottom: 5mm; left: 5mm; }
+
+      .poster-qr-label {
+        font-size: 10pt;
+        color: var(--color-text-muted);
+        margin-bottom: 10mm;
+        font-style: italic;
+      }
+
+      .poster-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 4mm;
+        margin-bottom: 12mm;
+        width: 100%;
+        max-width: 140mm;
+        text-align: left;
+      }
+      .poster-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 12pt;
+        color: #333;
+      }
+      .poster-step-num {
+        min-width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--color-primary);
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10pt;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .poster-stars {
+        font-size: 30pt;
+        color: var(--color-star);
+        margin-bottom: 8mm;
+        letter-spacing: 4px;
+      }
+
+      .poster-footer {
+        font-size: 10pt;
+        color: var(--color-text-muted);
+        margin-top: auto;
+        border-top: 1px solid #ddd;
+        padding-top: 6mm;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ╔══════════════════════════════════╗
+       ║   WEB APP (screen only)         ║
+       ╚══════════════════════════════════╝ -->
+  <div class="app-card" id="appCard">
+
+    <!-- Header -->
+    <div class="app-header">
+      <div class="brand-logo">
+        <span class="dot"></span>
+        <span>Amul Ice Cream</span>
+      </div>
+      <p class="header-greeting">Thank you for visiting! How many stars?</p>
+      <p class="header-sub">Tap a star to rate your experience</p>
+
+      <!-- 5-Star Rating -->
+      <div class="star-row" id="starRow" role="group" aria-label="Star rating">
+        <!-- Stars rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="section-body">
+
+      <!-- Initial hint -->
+      <div class="initial-msg" id="initialMsg">
+        <span class="arrow-hint">☝️</span>
+        Tap a star above to get started
+      </div>
+
+      <!-- ── Positive Route (4–5 stars) ── -->
+      <div class="route-section" id="positiveSection">
+        <p class="section-title">Awesome! Build your review 🎉</p>
+        <p class="section-desc">Tap topics below to add sentences, then post your review on Google.</p>
+
+        <div class="tag-label">Tap to add a sentence</div>
+        <div class="tags-wrap" id="tagsWrap">
+          <!-- Populated by JS -->
+        </div>
+        <p class="tag-hint" id="tagHint">Tap topics to build your review — or let ✨ AI assemble one instantly.</p>
+
+        <textarea
+          id="reviewTextarea"
+          class="review-textarea"
+          rows="5"
+          placeholder="Your review will appear here as you tap tags…"
+          aria-label="Your review text"
+        ></textarea>
+
+        <button class="btn btn-google" id="copyAndRedirectBtn" onclick="copyAndRedirect()">
+          <!-- Google G icon -->
+          <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#fff" d="M44.5 20H24v8.5h11.8C34.7 33.9 29.8 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.9 0 20-7.9 20-21 0-1.3-.1-2.7-.5-4z"/>
+          </svg>
+          Copy &amp; Post on Google Maps
+        </button>
+      </div>
+
+      <!-- ── Negative Route (1–3 stars) ── -->
+      <div class="route-section" id="negativeSection">
+        <span class="section-icon">🙏</span>
+        <p class="section-title">We're sorry to hear that</p>
+        <div class="apology-box">
+          We apologize for your experience. Please let the manager know what went wrong so we can fix it for you immediately.
+        </div>
+
+        <textarea
+          id="feedbackTextarea"
+          class="review-textarea"
+          rows="4"
+          placeholder="Tell us what went wrong… (optional)"
+          aria-label="Your feedback"
+        ></textarea>
+
+        <button class="btn btn-whatsapp" id="whatsappBtn" onclick="sendWhatsApp()">
+          <!-- WhatsApp icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+          </svg>
+          Message the Manager on WhatsApp
+        </button>
+      </div>
+
+    </div><!-- /section-body -->
+  </div><!-- /app-card -->
+
+  <p class="app-footer">Your feedback helps us improve 🙏</p>
+
+  <!-- ── Toast notification ── -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span>✅</span> Review copied to clipboard!
+  </div>
+
+  <!-- ╔══════════════════════════════════╗
+       ║   PRINT POSTER (print only)     ║
+       ╚══════════════════════════════════╝ -->
+  <div class="poster" id="poster">
+    <div class="poster-logo-bar">
+      <span class="brand-pill">Amul Ice Cream</span>
+    </div>
+
+    <div class="poster-title">
+      Love our <span>Ice Cream?</span><br>
+      Tell the world! ⭐
+    </div>
+    <p class="poster-sub">
+      Scan the QR code below to rate us on Google and share your sweet experience!
+    </p>
+
+    <!-- QR Code Placeholder -->
+    <div class="poster-qr" id="posterQr">
+      <!-- Stylised QR pattern placeholder -->
+      <div class="poster-qr-corner tl"></div>
+      <div class="poster-qr-corner tr"></div>
+      <div class="poster-qr-corner bl"></div>
+      <div class="poster-qr-inner" id="qrGrid">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+    <p class="poster-qr-label">Replace this placeholder with your actual QR code image</p>
+
+    <div class="poster-stars">★★★★★</div>
+
+    <div class="poster-steps">
+      <div class="poster-step">
+        <span class="poster-step-num">1</span>
+        <span>Point your phone camera at the QR code above</span>
+      </div>
+      <div class="poster-step">
+        <span class="poster-step-num">2</span>
+        <span>Tap the link that appears on your screen</span>
+      </div>
+      <div class="poster-step">
+        <span class="poster-step-num">3</span>
+        <span>Select your star rating and share your review</span>
+      </div>
+    </div>
+
+    <div class="poster-footer">
+      Rate Our Amul Parlor &nbsp;|&nbsp; Amul Ice Cream &nbsp;|&nbsp; Thank you for visiting! 🍦
+    </div>
+  </div>
+
+
+  <script>
+    // ══════════════════════════════════════════════
+    //  CONFIGURATION
+    // ══════════════════════════════════════════════
+    const CONFIG = {
+      googleReviewUrl : 'https://g.page/r/CdsQyMcOP8uaEBM/review',
+      whatsappNumber  : '918866390389',   // country code + number, no '+'
+      positiveStars   : [4, 5],           // stars that trigger positive route
+    };
+
+    // ══════════════════════════════════════════════
+    //  REVIEW CATEGORIES  (tap-to-build data)
+    // ══════════════════════════════════════════════
+    const reviewsByCategory = {
+      '🍦 Ice Cream Taste': [
+        'The ice cream was absolutely delicious and full of flavor.',
+        'Every scoop tasted fresh and creamy.',
+        'The flavors were rich, smooth, and perfectly balanced.',
+        'One of the best ice creams I\'ve ever had.',
+        'The taste exceeded my expectations.',
+        'Every bite was fresh and satisfying.',
+        'The ice cream had a rich and premium taste.',
+        'I loved the authentic and natural flavors.',
+        'The sweetness was just perfect.',
+        'The texture was smooth and creamy.',
+        'Every flavor I tried was amazing.',
+        'The ice cream melted perfectly and tasted great.',
+        'The quality of the flavors was outstanding.',
+        'It was refreshing and incredibly tasty.',
+        'The ice cream tasted exactly how premium ice cream should.',
+        'I enjoyed every bite from start to finish.',
+        'The flavor stayed enjoyable until the last scoop.',
+        'The taste was consistent and excellent.',
+        'This place serves truly delicious ice cream.',
+        'I can\'t wait to try more flavors.',
+        'Highly recommended for anyone who loves great ice cream.',
+      ],
+      '⭐ Quality': [
+        'The quality of the ice cream was excellent.',
+        'Everything tasted fresh and premium.',
+        'You can really notice the high-quality ingredients.',
+        'The quality exceeded my expectations.',
+        'Every product was fresh and well prepared.',
+        'The ice cream was served in perfect condition.',
+        'The overall quality was outstanding.',
+        'The freshness was clearly noticeable.',
+        'I was impressed with the premium quality.',
+        'The consistency and quality were excellent.',
+        'The products were fresh and delicious.',
+        'The quality has been consistently good every visit.',
+        'The ingredients tasted natural and fresh.',
+        'The presentation and quality were both excellent.',
+        'This shop maintains very high quality standards.',
+        'The quality made the experience even better.',
+        'Everything was served fresh and hygienically.',
+        'You definitely get premium quality here.',
+        'The attention to quality is impressive.',
+        'I would happily come back because of the quality.',
+        'Excellent quality that is worth every rupee.',
+      ],
+      '😊 Service': [
+        'The staff was very friendly and welcoming.',
+        'I received excellent customer service.',
+        'The staff was polite and helpful throughout.',
+        'Everyone greeted us with a smile.',
+        'The service was quick and professional.',
+        'The team made us feel valued as customers.',
+        'The staff was attentive and courteous.',
+        'I really appreciated the friendly behavior.',
+        'The service exceeded my expectations.',
+        'The employees were patient and helpful.',
+        'Great customer service from start to finish.',
+        'The staff handled everything professionally.',
+        'I was served with a smile.',
+        'The team was very cooperative.',
+        'They made the whole experience enjoyable.',
+        'Excellent hospitality from the staff.',
+        'The service was efficient and pleasant.',
+        'The staff answered all our questions politely.',
+        'I was impressed by the customer care.',
+        'Their service made me want to visit again.',
+        'Outstanding service that deserves appreciation.',
+      ],
+      '⚡ Speed': [
+        'My order was prepared very quickly.',
+        'The service was fast without compromising quality.',
+        'I didn\'t have to wait long at all.',
+        'Everything was served promptly.',
+        'The ordering process was smooth and quick.',
+        'The staff handled orders efficiently.',
+        'The service was impressively fast.',
+        'My ice cream was ready in no time.',
+        'The waiting time was minimal.',
+        'Everything was delivered on time.',
+        'The speed of service was excellent.',
+        'The order was prepared faster than expected.',
+        'I really appreciated the quick service.',
+        'Fast service made the visit even better.',
+        'The team worked efficiently.',
+        'The entire process was hassle-free.',
+        'Excellent speed and organization.',
+        'Even during busy hours, the service was quick.',
+        'I was pleasantly surprised by the fast service.',
+        'Quick service without sacrificing quality.',
+        'Great place if you\'re looking for fast service.',
+      ],
+      '🧼 Cleanliness': [
+        'The shop was very clean and hygienic.',
+        'Everything looked neat and well maintained.',
+        'The cleanliness of the shop was impressive.',
+        'The seating area was spotless.',
+        'The environment felt fresh and clean.',
+        'Hygiene standards were clearly maintained.',
+        'The counters and serving area were very clean.',
+        'I felt comfortable because everything was so clean.',
+        'The shop was well organized and tidy.',
+        'The cleanliness added to the great experience.',
+        'Everything looked professionally maintained.',
+        'The place was sparkling clean.',
+        'The overall hygiene was excellent.',
+        'Clean surroundings made the visit enjoyable.',
+        'I appreciated the attention to cleanliness.',
+        'The shop was one of the cleanest I\'ve visited.',
+        'Everything was presented in a hygienic way.',
+        'A clean and pleasant place to enjoy ice cream.',
+        'The staff clearly cares about hygiene.',
+        'The shop was fresh, clean, and inviting.',
+        'Excellent cleanliness throughout the store.',
+      ],
+      '🏪 Atmosphere': [
+        'The atmosphere was warm and welcoming.',
+        'The shop had a wonderful ambience.',
+        'It was a comfortable place to relax.',
+        'The seating area was pleasant and cozy.',
+        'The overall vibe was cheerful and enjoyable.',
+        'The shop had a lovely interior.',
+        'It was a perfect place to spend time with family.',
+        'I really liked the atmosphere here.',
+        'The ambience made the experience even better.',
+        'The shop felt clean, bright, and inviting.',
+        'It was a peaceful and relaxing environment.',
+        'The décor was attractive and modern.',
+        'The atmosphere was perfect for enjoying ice cream.',
+        'The place had a great family-friendly feel.',
+        'I loved the overall environment of the shop.',
+        'The lighting and décor created a great experience.',
+        'The ambience was both comfortable and stylish.',
+        'It was a great place to sit and enjoy.',
+        'The shop had positive and welcoming vibes.',
+        'The environment made me want to stay longer.',
+        'Overall, the atmosphere was excellent.',
+      ],
+      '💰 Value for Money': [
+        'The ice cream was definitely worth the price.',
+        'I got great value for the money I spent.',
+        'The quality easily justified the price.',
+        'The prices were very reasonable.',
+        'Excellent quality at an affordable price.',
+        'The portion size was worth the cost.',
+        'Great taste without spending too much.',
+        'I was happy with what I received for the price.',
+        'The pricing was fair and reasonable.',
+        'It offered excellent value for money.',
+        'Every rupee spent was worth it.',
+        'The quality exceeded the price I paid.',
+        'Good prices for such premium ice cream.',
+        'Affordable and satisfying.',
+        'The overall experience was worth every penny.',
+        'The pricing was competitive and fair.',
+        'Great quality at a budget-friendly price.',
+        'I would happily spend my money here again.',
+        'The shop offers excellent value compared to others.',
+        'Fantastic experience at a reasonable price.',
+        'I highly recommend this place for its value for money.',
+      ],
+    };
+
+    // ══════════════════════════════════════════════
+    //  TAG STATE  (tap-to-build selections)
+    // ══════════════════════════════════════════════
+    // activeSelections: category label → the exact sentence locked in for that tag
+    let activeSelections = {};
+    // customText: anything the user typed manually in the textarea
+    let customText       = '';
+
+    // ══════════════════════════════════════════════
+    //  STATE
+    // ══════════════════════════════════════════════
+    let currentRating = 0;
+
+    // ══════════════════════════════════════════════
+    //  STAR RENDERING
+    // ══════════════════════════════════════════════
+    const starRow = document.getElementById('starRow');
+
+    function buildStars() {
+      starRow.innerHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'star-btn';
+        btn.id = `star-${i}`;
+        btn.setAttribute('aria-label', `${i} star${i > 1 ? 's' : ''}`);
+        btn.innerHTML = `
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <polygon class="star-fill" points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" stroke="none"/>
+            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+          </svg>`;
+        btn.addEventListener('click',      () => handleStarClick(i));
+        btn.addEventListener('mouseenter', () => highlightStars(i, true));
+        btn.addEventListener('mouseleave', () => highlightStars(currentRating, false));
+        starRow.appendChild(btn);
+      }
+    }
+
+    function highlightStars(upTo, isHover) {
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.getElementById(`star-${i}`);
+        btn.classList.toggle('active', !isHover && i <= upTo);
+        btn.classList.toggle('hover',  isHover  && i <= upTo);
+      }
+    }
+
+    function handleStarClick(rating) {
+      currentRating = rating;
+      highlightStars(rating, false);
+      showRoute(rating);
+    }
+
+    // ══════════════════════════════════════════════
+    //  ROUTE DISPLAY
+    // ══════════════════════════════════════════════
+    function showRoute(rating) {
+      const initMsg    = document.getElementById('initialMsg');
+      const posSection = document.getElementById('positiveSection');
+      const negSection = document.getElementById('negativeSection');
+
+      initMsg.style.display = 'none';
+
+      const isPositive = CONFIG.positiveStars.includes(rating);
+      posSection.classList.toggle('visible', isPositive);
+      negSection.classList.toggle('visible', !isPositive);
+
+      if (isPositive) {
+        document.getElementById('reviewTextarea').value = '';
+        buildCategoryTags();
+      }
+    }
+
+    // ══════════════════════════════════════════════
+    //  TAP-TO-BUILD: Category Tag System
+    // ══════════════════════════════════════════════
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // Tracks whether the AI tag is currently active
+    let aiTagActive = false;
+
+    function buildCategoryTags() {
+      const wrap = document.getElementById('tagsWrap');
+      wrap.innerHTML   = '';
+      activeSelections = {};
+      customText       = '';
+      aiTagActive      = false;
+
+      const ta = document.getElementById('reviewTextarea');
+      ta.value = '';
+      ta.addEventListener('input', onTextareaInput);
+
+      // ── AI tag (rendered first, styled distinctly) ──
+      const aiTag = document.createElement('button');
+      aiTag.className = 'category-tag tag-ai';
+      aiTag.id        = 'aiTag';
+      aiTag.textContent = '✨ AI Generated Review';
+      aiTag.setAttribute('aria-pressed', 'false');
+      aiTag.addEventListener('click', () => handleAiTagClick(aiTag));
+      wrap.appendChild(aiTag);
+
+      // ── Visual separator between AI tag and standard tags ──
+      const sep = document.createElement('div');
+      sep.className = 'tag-separator';
+      sep.innerHTML = '<span>or pick a topic</span>';
+      wrap.appendChild(sep);
+
+      // ── Standard category tags ──
+      Object.keys(reviewsByCategory).forEach(label => {
+        const tag = document.createElement('button');
+        tag.className = 'category-tag';
+        tag.textContent = label;
+        tag.setAttribute('aria-pressed', 'false');
+        tag.addEventListener('click', () => handleTagClick(label, tag));
+        wrap.appendChild(tag);
+      });
+    }
+
+    /* Rebuild textarea value = all locked tag sentences + custom text */
+    function buildTextarea() {
+      const sentences = Object.values(activeSelections);
+      const built     = sentences.join(' ');
+      const combined  = built && customText.trim()
+        ? built + ' ' + customText.trim()
+        : built || customText.trim();
+
+      const ta = document.getElementById('reviewTextarea');
+      ta.value = combined;
+    }
+
+    /* Keep customText in sync whenever the user types manually */
+    function onTextareaInput() {
+      const ta    = document.getElementById('reviewTextarea');
+      const built = Object.values(activeSelections).join(' ');
+
+      if (!built) {
+        customText = ta.value;
+        return;
+      }
+
+      if (ta.value.startsWith(built)) {
+        customText = ta.value.slice(built.length).replace(/^\s+/, '');
+      } else {
+        customText       = ta.value;
+        activeSelections = {};
+        document.querySelectorAll('.category-tag:not(.tag-ai)').forEach(t => {
+          t.classList.remove('selected');
+          t.setAttribute('aria-pressed', 'false');
+        });
+      }
+    }
+
+    /* ── Clears all standard tags + AI tag state ── */
+    function clearAllTags() {
+      activeSelections = {};
+      customText       = '';
+      aiTagActive      = false;
+      document.querySelectorAll('.category-tag').forEach(t => {
+        t.classList.remove('selected');
+        t.setAttribute('aria-pressed', 'false');
+      });
+      document.getElementById('reviewTextarea').value = '';
+    }
+
+    /* ── AI tag click handler ── */
+    function handleAiTagClick(tagEl) {
+      if (aiTagActive) {
+        // Toggle OFF — clear everything
+        clearAllTags();
+        return;
+      }
+
+      // Clear any standard selections first
+      clearAllTags();
+
+      // Pick 3–4 distinct random categories
+      const allCategories = Object.keys(reviewsByCategory);
+      const count         = Math.floor(Math.random() * 2) + 3; // 3 or 4
+      const shuffled      = [...allCategories].sort(() => Math.random() - 0.5);
+      const chosen        = shuffled.slice(0, count);
+
+      // Build the paragraph
+      const paragraph = chosen
+        .map(cat => pickRandom(reviewsByCategory[cat]))
+        .join(' ');
+
+      document.getElementById('reviewTextarea').value = paragraph;
+      customText = paragraph; // treat whole block as custom so standard tags append cleanly
+
+      // Mark the AI tag as active
+      aiTagActive = true;
+      tagEl.classList.add('selected');
+      tagEl.setAttribute('aria-pressed', 'true');
+
+      document.getElementById('reviewTextarea').focus();
+    }
+
+    /* ── Standard tag click handler ── */
+    function handleTagClick(label, tagEl) {
+      // If AI tag is active, clear it first before applying standard logic
+      if (aiTagActive) {
+        clearAllTags();
+        customText = ''; // fresh start
+      }
+
+      const isActive = tagEl.classList.contains('selected');
+
+      if (!isActive) {
+        const sentence          = pickRandom(reviewsByCategory[label]);
+        activeSelections[label] = sentence;
+        tagEl.classList.add('selected');
+        tagEl.setAttribute('aria-pressed', 'true');
+      } else {
+        delete activeSelections[label];
+        tagEl.classList.remove('selected');
+        tagEl.setAttribute('aria-pressed', 'false');
+      }
+
+      buildTextarea();
+      document.getElementById('reviewTextarea').focus();
+    }
+
+
+
+    // ══════════════════════════════════════════════
+    //  POSITIVE ACTION: Copy & Redirect
+    // ══════════════════════════════════════════════
+    function copyAndRedirect() {
+      const text = document.getElementById('reviewTextarea').value.trim();
+
+      if (!text) {
+        document.getElementById('reviewTextarea').focus();
+        document.getElementById('reviewTextarea').style.borderColor = 'var(--color-accent)';
+        setTimeout(() => {
+          document.getElementById('reviewTextarea').style.borderColor = '';
+        }, 1800);
+        return;
+      }
+
+      // Copy to clipboard
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(showToastAndRedirect).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    }
+
+    function fallbackCopy() {
+      const ta = document.getElementById('reviewTextarea');
+      ta.select();
+      try { document.execCommand('copy'); } catch(e) { /* silent */ }
+      showToastAndRedirect();
+    }
+
+    function showToastAndRedirect() {
+      showToast();
+      // Bypass popup blockers: create an <a> and simulate click after short delay
+      setTimeout(() => {
+        const a = document.createElement('a');
+        a.href   = CONFIG.googleReviewUrl;
+        a.target = '_blank';
+        a.rel    = 'noopener noreferrer';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }, 600);
+    }
+
+    // ══════════════════════════════════════════════
+    //  NEGATIVE ACTION: WhatsApp
+    // ══════════════════════════════════════════════
+    function sendWhatsApp() {
+      const feedback = document.getElementById('feedbackTextarea').value.trim();
+      const baseMsg  = 'Hello, I visited your Amul parlor and would like to share my feedback.';
+      const fullMsg  = feedback
+        ? `${baseMsg}\n\nMy feedback: ${feedback}`
+        : baseMsg;
+      const encoded = encodeURIComponent(fullMsg);
+      const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encoded}`;
+
+      const a = document.createElement('a');
+      a.href   = url;
+      a.target = '_blank';
+      a.rel    = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // ══════════════════════════════════════════════
+    //  TOAST
+    // ══════════════════════════════════════════════
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    // ══════════════════════════════════════════════
+    //  PRINT POSTER: QR Grid (decorative placeholder)
+    // ══════════════════════════════════════════════
+    function buildQrPlaceholder() {
+      const grid = document.getElementById('qrGrid');
+      if (!grid) return;
+      // Simple random-ish but seeded pattern for visual QR look
+      const pattern = [
+        1,1,1,0,1,1,1,
+        1,0,1,0,1,0,1,
+        1,0,1,0,1,0,1,
+        0,0,0,1,0,1,0,
+        1,0,0,1,0,0,0,
+        1,0,1,0,1,0,1,
+        1,1,1,0,1,1,1,
+      ];
+      grid.innerHTML = '';
+      pattern.forEach(v => {
+        const cell = document.createElement('div');
+        cell.className = 'poster-qr-cell' + (v ? '' : ' empty');
+        grid.appendChild(cell);
+      });
+    }
+
+    // ══════════════════════════════════════════════
+    //  INIT
+    // ══════════════════════════════════════════════
+    buildStars();
+    buildQrPlaceholder();
+  </script>
+</body>
+</html>
